@@ -1,0 +1,23 @@
+Don't Deal With The Devil
+Kristofer Maddigan
+devil.mp3
+devilshort.mp3
+devil.png
+[Difficulty 0]
+Easy
+3
+testChart.txt
+974890
+560224
+[Difficulty 1]
+Hard
+7
+testChart.txt
+90000
+60000
+[Difficulty 2]
+Expert
+14
+testChart.txt
+974890
+560224
