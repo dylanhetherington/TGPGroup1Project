@@ -10,15 +10,15 @@ function love.load()
   audioFile = ""
   audioPreview = ""
   artFile = ""
-  note = {}
-  note.rail = 0
-  note.startTime = 0
-  note.type = 0
-  note.endTime = 0
+  Note = {}
+  Note.rail = 0
+  Note.startTime = 0
+  Note.type = 0
+  Note.endTime = 0
   notes = {}
   fileLoad()
 end
-function fileLoad(difficulty)
+function fileLoad(checkDifficulty)
   songDataStore = {}
   for line in love.filesystem.lines("Songs/TestSong/testData.txt") do
     table.insert(songDataStore, line)
@@ -28,21 +28,21 @@ function fileLoad(difficulty)
   audioFile = songDataStore[3]
   audioPreview = songDataStore[4]
   artFile = songDataStore[5]
-  if (difficulty == 0) then
+  if (checkDifficulty == 0) then
     difficulty = songDataStore[7]
     rating = songDataStore[8]
     noteChart = songDataStore[9]
     bestScore = songDataStore[10]
     previousScore = songDataStore[11]
   end
-  if (difficulty == 1) then
+  if (checkDifficulty == 1) then
     difficulty = songDataStore[13]
     rating = songDataStore[14]
     noteChart = songDataStore[15]
     bestScore = songDataStore[16]
     previousScore = songDataStore[17]
   end
-  if (difficulty == 2) then
+  if (checkDifficulty == 2) then
     difficulty = songDataStore[19]
     rating = songDataStore[20]
     noteChart = songDataStore[21]
@@ -53,19 +53,44 @@ end
 
 function love.update(dt)
   if (love.keyboard.isDown('1') and keyDown == false) then
-      fileLoad(0)
-      print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..             artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..              bestScore.."\n"..previousScore)
+    fileLoad(0)
+    loadNotes(" ")
+    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
+    for i, note in pairs(notes) do
+    print(i.." | "..note.rail.."  "..note.startTime.." ")--..note.type.."  ")
+    end
+    keyDown = true
   end
   if (love.keyboard.isDown('2')and keyDown == false) then
-      fileLoad(1)
-    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..             artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..              bestScore.."\n"..previousScore)
+    fileLoad(1)
+    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
+    keyDown = true
   end
   if (love.keyboard.isDown('3')and keyDown == false) then
-      fileLoad(2)
-    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..             artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..              bestScore.."\n"..previousScore)
+    fileLoad(2)
+    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
+    keyDown = true
   end
 end
-
+function Note.storeData(self, i)
+  self.rail = noteDataStore[i+1]:match'(%S+)'
+  self.startTime = noteDataStore[i+1]:match'%s+(%S+)'
+end
+function loadNotes(pathName)
+   noteDataStore = {}
+  for line in love.filesystem.lines("Songs/TestSong/testChart.txt") do
+    table.insert(noteDataStore, line)
+  end
+  for i=0, 10, 1 do
+    note = Note
+    Note.storeData(note,i)
+    notes[i] = note
+    print(notes[i].rail)
+    --notes[i].type = noteDataStore[i+1]:match'%s+%s+(%S+)'
+    --notes[i].endTime = noteDataStore[i+1]:match'%s+%s+(%S+)'
+  end
+  print(notes[1].rail)
+end  
 function love.draw()
   
 end 
