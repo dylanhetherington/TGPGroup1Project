@@ -1,0 +1,54 @@
+[MetaData]
+SongName: Don't Deal With The Devil
+Artist: Kristofer Maddigan
+
+[Difficulty 0]
+Difficulty: Easy
+Rating: 3
+NoteChart: devil 3 easy.txt
+Best Score: 974,890
+Previous Score: 560,224
+
+[Difficulty 1]
+Difficulty: Hard
+Rating: 7
+NoteChart: devil 7 hard.txt
+Best Score: 974,890
+Previous Score: 560,224
+
+[Difficulty 2]
+Difficulty: Expert
+Rating: 14
+NoteChart: devil 14 hard.txt
+Best Score: 974,890
+Previous Score: 560,224
+
+
+Audio File: devil.mp3
+Audio Preview: devilshort.mp3
+Album Art: devil.png
+
+
+[Rail - StartTime - NoteType - EndTime (If EndTime = 0 then EndTime==StartTime)]
+[HitObjects]
+0 1822 1 0 
+0 2882 1 0 
+0 3791 1 0 
+0 4776 1 0 
+1 5988 1 0 
+1 7049 1 0 
+1 8110 1 0 
+1 9019 1 0 
+2 9928 1 0 
+2 11064 1 0 
+2 12125 1 0 
+2 13110 1 0 
+3 14170 1 0 
+3 15079 1 0 
+3 16064 1 0 
+3 16973 1 0 
+0 17504 2 18564 
+1 19170 2 20458 
+2 21216 2 22352 
+3 23337 2 25913 
+
