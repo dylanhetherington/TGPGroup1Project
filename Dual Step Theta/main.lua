@@ -1,3 +1,5 @@
+local Note = {rail = 0, startTime = 0, noteType = 0, endTime = 0}
+
 function love.load()
   keyDown = false
   songName = ""
@@ -10,15 +12,9 @@ function love.load()
   audioFile = ""
   audioPreview = ""
   artFile = ""
-  Note = {}
-  Note.rail = 0
-  Note.startTime = 0
-  Note.type = 0
-  Note.endTime = 0
   notes = {}
-  fileLoad()
 end
-function fileLoad(checkDifficulty)
+function FileLoad(checkDifficulty)
   songDataStore = {}
   for line in love.filesystem.lines("Songs/TestSong/testData.txt") do
     table.insert(songDataStore, line)
@@ -53,44 +49,60 @@ end
 
 function love.update(dt)
   if (love.keyboard.isDown('1') and keyDown == false) then
-    fileLoad(0)
-    loadNotes(" ")
+    FileLoad(0)
+    LoadNotes(noteChart)
     print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
     for i, note in pairs(notes) do
-    print(i.." | "..note.rail.."  "..note.startTime.." ")--..note.type.."  ")
+    print(i.." | "..note.rail.."  "..note.startTime.."  "..note.noteType.."  "..note.endTime)
     end
     keyDown = true
   end
   if (love.keyboard.isDown('2')and keyDown == false) then
-    fileLoad(1)
+    FileLoad(1)
+    LoadNotes(noteChart)
     print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
     keyDown = true
   end
   if (love.keyboard.isDown('3')and keyDown == false) then
-    fileLoad(2)
+    FileLoad(2)
+    LoadNotes(noteChart)
     print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
     keyDown = true
   end
 end
-function Note.storeData(self, i)
-  self.rail = noteDataStore[i+1]:match'(%S+)'
-  self.startTime = noteDataStore[i+1]:match'%s+(%S+)'
+function Note.New()
+  note = setmetatable({}, Note)
+  note.rail = 0
+  note.startTime = 0
+  note.noteType = 0
+  note.endTime = 0
+  return note
 end
-function loadNotes(pathName)
+function Note.StoreData(self, i)
+  self.rail, self.startTime, self.noteType, self.endTime = noteDataStore[i+1]:match'(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+'
+end
+function LoadNotes(pathName)
    noteDataStore = {}
-  for line in love.filesystem.lines("Songs/TestSong/testChart.txt") do
+  for line in love.filesystem.lines("Songs/TestSong/"..pathName) do
     table.insert(noteDataStore, line)
   end
-  for i=0, 10, 1 do
-    note = Note
-    Note.storeData(note,i)
+  print(TableCount(noteDataStore))
+      print(noteDataStore[0])
+      print(noteDataStore[1])
+  for i = 0, TableCount(noteDataStore) -1, 1 do
+    note = Note.New()
+    Note.StoreData(note,i)
     notes[i] = note
     print(notes[i].rail)
-    --notes[i].type = noteDataStore[i+1]:match'%s+%s+(%S+)'
-    --notes[i].endTime = noteDataStore[i+1]:match'%s+%s+(%S+)'
   end
-  print(notes[1].rail)
-end  
+end 
+function TableCount(table)
+  count = 0
+  for i in pairs(table) do
+    count = count + 1
+  end
+  return count
+end
 function love.draw()
   
 end 
