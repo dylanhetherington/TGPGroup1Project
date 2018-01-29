@@ -1,100 +1,65 @@
-local Note = {rail = 0, startTime = 0, noteType = 0, endTime = 0}
+require "Song"
 
 function love.load()
   keyDown = false
-  songName = ""
-  artist = ""
-  difficulty = ""
-  rating = 0
-  noteChart = ""
-  bestScore = 0
-  previousScore = 0
-  audioFile = ""
-  audioPreview = ""
-  artFile = ""
-  notes = {}
+  songs = {}
+  songDirectory = {}
+  songCount = 3
+  FileLoad()
 end
-function FileLoad(checkDifficulty)
-  songDataStore = {}
-  for line in love.filesystem.lines("Songs/TestSong/testData.txt") do
-    table.insert(songDataStore, line)
-  end
-  songName = songDataStore[1]
-  artist = songDataStore[2]
-  audioFile = songDataStore[3]
-  audioPreview = songDataStore[4]
-  artFile = songDataStore[5]
-  if (checkDifficulty == 0) then
-    difficulty = songDataStore[7]
-    rating = songDataStore[8]
-    noteChart = songDataStore[9]
-    bestScore = songDataStore[10]
-    previousScore = songDataStore[11]
-  end
-  if (checkDifficulty == 1) then
-    difficulty = songDataStore[13]
-    rating = songDataStore[14]
-    noteChart = songDataStore[15]
-    bestScore = songDataStore[16]
-    previousScore = songDataStore[17]
-  end
-  if (checkDifficulty == 2) then
-    difficulty = songDataStore[19]
-    rating = songDataStore[20]
-    noteChart = songDataStore[21]
-    bestScore = songDataStore[22]
-    previousScore = songDataStore[23]
+function FileLoad()
+  local fileCount = 1
+  for line in love.filesystem.lines("Songs/Directory.txt") do
+    table.insert(songDirectory, line)
+    for i = 0, TableCount(songDirectory) -1, 3 do
+      songDataStore = {}
+      for line in love.filesystem.lines("Songs/"..songDirectory[fileCount]) do
+        table.insert(songDataStore, line)
+      end
+      songEasy = Song.New()
+      songMid = Song.New()
+      songHard = Song.New()
+      Song.StoreData(songEasy, 0)
+      Song.StoreData(songMid, 1)
+      Song.StoreData(songHard, 2)
+      songs[i] = songEasy
+      songs[i+1] = songMid
+      songs[i+2] = songHard
+      fileCount = fileCount + 1
+    end
   end
 end 
-
 function love.update(dt)
   if (love.keyboard.isDown('1') and keyDown == false) then
-    FileLoad(0)
-    LoadNotes(noteChart)
-    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
-    for i, note in pairs(notes) do
+    local activeSong = songs[0]
+    Song.LoadNotes(activeSong)
+    print(activeSong.songName.."\n"..activeSong.artist.."\n"..activeSong.audioFile.."\n"..  activeSong.audioPreview.."\n"..activeSong.artFile.."\n"..activeSong.difficulty.."\n"..activeSong.rating.."\n"..activeSong.noteChart.."\n"..activeSong.bestScore.."\n"..activeSong.previousScore)
+    for i, note in pairs(activeSong.notes) do
     print(i.." | "..note.rail.."  "..note.startTime.."  "..note.noteType.."  "..note.endTime)
     end
     keyDown = true
   end
   if (love.keyboard.isDown('2')and keyDown == false) then
-    FileLoad(1)
-    LoadNotes(noteChart)
-    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
+    local activeSong = songs[1]
+    Song.LoadNotes(activeSong)
+    print(activeSong.songName.."\n"..activeSong.artist.."\n"..activeSong.audioFile.."\n"..  activeSong.audioPreview.."\n"..activeSong.artFile.."\n"..activeSong.difficulty.."\n"..activeSong.rating.."\n"..activeSong.noteChart.."\n"..activeSong.bestScore.."\n"..activeSong.previousScore)
+    for i, note in pairs(activeSong.notes) do
+    print(i.." | "..note.rail.."  "..note.startTime.."  "..note.noteType.."  "..note.endTime)
+    end
     keyDown = true
   end
   if (love.keyboard.isDown('3')and keyDown == false) then
-    FileLoad(2)
-    LoadNotes(noteChart)
-    print(songName.."\n"..artist.."\n"..audioFile.."\n"..audioPreview.."\n"..artFile.."\n"..difficulty.."\n"..rating.."\n"..noteChart.."\n"..bestScore.."\n"..previousScore)
+    local activeSong = songs[2]
+    Song.LoadNotes(activeSong)
+    print(activeSong.songName.."\n"..activeSong.artist.."\n"..activeSong.audioFile.."\n"..  activeSong.audioPreview.."\n"..activeSong.artFile.."\n"..activeSong.difficulty.."\n"..activeSong.rating.."\n"..activeSong.noteChart.."\n"..activeSong.bestScore.."\n"..activeSong.previousScore)
+    for i, note in pairs(activeSong.notes) do
+    print(i.." | "..note.rail.."  "..note.startTime.."  "..note.noteType.."  "..note.endTime)
+    end
     keyDown = true
   end
 end
-function Note.New()
-  note = setmetatable({}, Note)
-  note.rail = 0
-  note.startTime = 0
-  note.noteType = 0
-  note.endTime = 0
-  return note
-end
-function Note.StoreData(self, i)
-  self.rail, self.startTime, self.noteType, self.endTime = noteDataStore[i+1]:match'(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+'
-end
-function LoadNotes(pathName)
-   noteDataStore = {}
-  for line in love.filesystem.lines("Songs/TestSong/"..pathName) do
-    table.insert(noteDataStore, line)
-  end
-  print(TableCount(noteDataStore))
-      print(noteDataStore[0])
-      print(noteDataStore[1])
-  for i = 0, TableCount(noteDataStore) -1, 1 do
-    note = Note.New()
-    Note.StoreData(note,i)
-    notes[i] = note
-    print(notes[i].rail)
-  end
+function love.draw()
+  
 end 
 function TableCount(table)
   count = 0
@@ -103,6 +68,3 @@ function TableCount(table)
   end
   return count
 end
-function love.draw()
-  
-end 
