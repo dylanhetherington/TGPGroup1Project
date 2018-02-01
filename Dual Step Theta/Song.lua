@@ -60,16 +60,11 @@ function Song.LoadNotes(self)
   for line in love.filesystem.lines("Songs/TestSong/"..self.noteChart) do
     table.insert(noteDataStore, line)
   end
-  print(TableCount(noteDataStore))
   for i = 0, TableCount(noteDataStore) -1, 1 do
     note = Note.New()
     Note.StoreData(note,i)
     self.notes[i] = note
-    print (note.endTime)
   end
-end
-function Song.GetNoteChart()
-  return noteChart
 end
 function Song.LoadAudio()
   

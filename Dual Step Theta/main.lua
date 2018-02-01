@@ -1,5 +1,5 @@
 require "Song"
-
+require 'PlayField'
 function love.load()
   keyDown = false
   songs = {}
@@ -33,11 +33,8 @@ function love.update(dt)
   if (love.keyboard.isDown('1') and keyDown == false) then
     local activeSong = songs[0]
     Song.LoadNotes(activeSong)
-    print(activeSong.songName.."\n"..activeSong.artist.."\n"..activeSong.audioFile.."\n"..  activeSong.audioPreview.."\n"..activeSong.artFile.."\n"..activeSong.difficulty.."\n"..activeSong.rating.."\n"..activeSong.noteChart.."\n"..activeSong.bestScore.."\n"..activeSong.previousScore)
-    for i, note in pairs(activeSong.notes) do
-    print(i.." | "..note.rail.."  "..note.startTime.."  "..note.noteType.."  "..note.endTime)
-    end
     keyDown = true
+    playField = PlayField.New(activeSong)
   end
   if (love.keyboard.isDown('2')and keyDown == false) then
     local activeSong = songs[1]
@@ -56,6 +53,9 @@ function love.update(dt)
     print(i.." | "..note.rail.."  "..note.startTime.."  "..note.noteType.."  "..note.endTime)
     end
     keyDown = true
+  end
+  if (keyDown == true) then
+    playField.Update(dt)
   end
 end
 function love.draw()
