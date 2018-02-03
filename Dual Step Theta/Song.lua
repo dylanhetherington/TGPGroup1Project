@@ -11,6 +11,7 @@ Song = {songName,
         audioPreview,
         artFile,
         notes }
+
 function Song.New()
   song = setmetatable({}, Song)
   song.songName = ""
@@ -55,6 +56,7 @@ function Song.StoreData(self, checkDifficulty)
     self.previousScore = songDataStore[23]
   end
 end
+
 function Song.LoadNotes(self)
   noteDataStore = {}
   for line in love.filesystem.lines("Songs/TestSong/"..self.noteChart) do
@@ -66,6 +68,7 @@ function Song.LoadNotes(self)
     self.notes[i] = note
   end
 end
+
 function Song.LoadAudio()
   
 end

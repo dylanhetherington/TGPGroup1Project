@@ -35,6 +35,7 @@ function PlayField.CreateRails()
       end
     end
 end
+
 function PlayField.Update(dt)
       print(playField.song.songName.."\n"..playField.song.artist.."\n"..playField.song.audioFile.."\n"..  playField.song..audioPreview.."\n"..playField.song.artFile.."\n"..playField.song.difficulty.."\n"..playField.song.rating.."\n"..playField.song.noteChart.."\n"..playField.song.bestScore.."\n"..playField.song.previousScore)
     for i, note in pairs(activeSong.notes) do

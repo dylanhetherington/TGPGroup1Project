@@ -10,6 +10,7 @@ function Rail.New()
   rail.totalNotes = 0
   return rail
 end
+
 function Rail.AddNote(self, note)
   self.notes[self.totalNotes] = note
 end

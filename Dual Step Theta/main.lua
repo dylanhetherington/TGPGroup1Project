@@ -1,5 +1,6 @@
 require "Song"
 require 'PlayField'
+
 function love.load()
   keyDown = false
   songs = {}
@@ -7,6 +8,7 @@ function love.load()
   songCount = 3
   FileLoad()
 end
+
 function FileLoad()
   local fileCount = 1
   for line in love.filesystem.lines("Songs/Directory.txt") do
@@ -29,6 +31,7 @@ function FileLoad()
     end
   end
 end 
+
 function love.update(dt)
   if (love.keyboard.isDown('1') and keyDown == false) then
     local activeSong = songs[0]
@@ -58,9 +61,11 @@ function love.update(dt)
     playField.Update(dt)
   end
 end
+
 function love.draw()
   
 end 
+
 function TableCount(table)
   count = 0
   for i in pairs(table) do

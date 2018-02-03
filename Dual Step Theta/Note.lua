@@ -11,6 +11,7 @@ function Note.New()
   note.endTime = 0
   return note
 end
+
 function Note.StoreData(self, i)
   self.rail, self.startTime, self.noteType, self.endTime = noteDataStore[i+1]:match  '(%S+)%s+(%S+)%s+(%S+)%s+(%S+)%s+'
   self.rail = tonumber(self.rail)
