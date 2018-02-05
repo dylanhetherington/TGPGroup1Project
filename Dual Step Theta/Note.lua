@@ -1,7 +1,9 @@
 Note = {rail = 0, 
   startTime = 0, 
   noteType = 0, 
-  endTime = 0}
+  endTime = 0,
+  yPosition = 0,
+  active = false}
 
 function Note.New()
   note = setmetatable({}, Note)
@@ -9,6 +11,8 @@ function Note.New()
   note.startTime = 0
   note.noteType = 0
   note.endTime = 0
+  note.yPosition = 0
+  note.active = false
   return note
 end
 

@@ -28,7 +28,6 @@ function SongMenu.Draw()
 end
 
 function SongMenu.Update(dt)
-        print(songMenu.songList[1].songName.."\n"..songMenu.songList[1].artist.."\n"..songMenu.songList[1].audioFile.."\n"..songMenu.songList[1].audioPreview.."\n"..songMenu.songList[1].artFile.."\n"..songMenu.songList[1].difficulty.."\n"..songMenu.songList[1].rating.."\n"..songMenu.songList[1].noteChart.."\n"..songMenu.songList[1].bestScore.."\n"..songMenu.songList[1].previousScore) --lines for debugging, remove these
   --use self. when wanting to access class varaibles
   --check player input to scroll through the list (update selected position)
   --songs scroll in sets of 3 cause 3 slots used for difficulty settings

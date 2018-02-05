@@ -1,6 +1,7 @@
 require 'Song'
 require 'Rail'
 require 'ScoreManager'
+require 'Note'
 
 
 PlayField = { timer,
@@ -16,30 +17,46 @@ function PlayField.New(song)
   --playField.scoreManager = ScoreManager.New()
   --playField.user = User.New()
   playField.song = song
-  PlayField.CreateRails()
+  PlayField.CreateRails(playField)
   return playField
 end
 
-function PlayField.CreateRails()
+function PlayField.CreateRails(self)
   railOne = Rail.New();  railTwo = Rail.New(); railThree = Rail.New(); railFour = Rail.New()
-  playField.rails[0] = railOne; playField.rails[1] = railTwo; playField.rails[2] = railThree; playField.rails[3] = railFour
-  for i, note in pairs(playField.song.notes) do
+  self.rails[0] = railOne; self.rails[1] = railTwo; self.rails[2] = railThree; self.rails[3] = railFour
+  for i, note in pairs(self.song.notes) do
     if (note.rail == 0) then
-      Rail.AddNote(playField.rails[0], note)
+      Rail.AddNote(self.rails[0], note)
+      print(self.song.notes.startTime)
     elseif (note.rail == 1) then
-      Rail.AddNote(playField.rails[1], note)
+      Rail.AddNote(self.rails[1], note)
     elseif (note.rail == 2) then
-      Rail.AddNote(playField.rails[2], note)
+      Rail.AddNote(self.rails[2], note)
     else
-      Rail.AddNote(playField.rails[3], note)
+      Rail.AddNote(self.rails[3], note)
       end
     end
 end
 
 function PlayField.Update(dt)
   playField.timer = playField.timer + dt
-      print(playField.song.songName.."\n"..playField.song.artist.."\n"..playField.song.audioFile.."\n"..  playField.song..audioPreview.."\n"..playField.song.artFile.."\n"..playField.song.difficulty.."\n"..playField.song.rating.."\n"..playField.song.noteChart.."\n"..playField.song.bestScore.."\n"..playField.song.previousScore)
-    for i, note in pairs(activeSong.notes) do
-    print(i.." | "..note.rail.."  "..note.startTime.."  "..note.noteType.."  "..note.endTime)
-    end
+  --Rail.CheckNextNote(playField.rails[0], timer)
+  --Rail.CheckNextNote(playField.rails[1], timer)
+  --Rail.CheckNextNote(playField.rails[2], timer)
+  --Rail.CheckNextNote(playField.rails[3], timer)
+  --Rail.DrawNote(playField.rails[0], dt, 100)
+  --Rail.DrawNote(playField.rails[1], dt, 200)
+  --Rail.DrawNote(playField.rails[2], dt, 300)
+  --Rail.DrawNote(playField.rails[3], dt, 400)
+    --for i, note in pairs(playField.rails[0]) do
+    --print(i.." | "  ..note.startTime.."  "..note.noteType.."  "..note.endTime)
+    --end
+end
+
+function PlayField.Draw()
+    
+end
+
+function PlayField.DrawNote()
+  
 end
