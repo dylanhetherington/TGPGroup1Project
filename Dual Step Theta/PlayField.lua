@@ -27,7 +27,6 @@ function PlayField.CreateRails(self)
   for i, note in pairs(self.song.notes) do
     if (note.rail == 0) then
       Rail.AddNote(self.rails[0], note)
-      print(self.song.notes.startTime)
     elseif (note.rail == 1) then
       Rail.AddNote(self.rails[1], note)
     elseif (note.rail == 2) then
@@ -40,21 +39,21 @@ end
 
 function PlayField.Update(dt)
   playField.timer = playField.timer + dt
-  --Rail.CheckNextNote(playField.rails[0], timer)
-  --Rail.CheckNextNote(playField.rails[1], timer)
-  --Rail.CheckNextNote(playField.rails[2], timer)
-  --Rail.CheckNextNote(playField.rails[3], timer)
-  --Rail.DrawNote(playField.rails[0], dt, 100)
-  --Rail.DrawNote(playField.rails[1], dt, 200)
-  --Rail.DrawNote(playField.rails[2], dt, 300)
-  --Rail.DrawNote(playField.rails[3], dt, 400)
+  Rail.Update(playField.rails[0], dt, playField.timer)
+  Rail.Update(playField.rails[1], dt, playField.timer)
+  Rail.Update(playField.rails[2], dt, playField.timer)
+  Rail.Update(playField.rails[3], dt, playField.timer)
     --for i, note in pairs(playField.rails[0]) do
     --print(i.." | "  ..note.startTime.."  "..note.noteType.."  "..note.endTime)
     --end
 end
 
 function PlayField.Draw()
-    
+  love.graphics.print(playField.timer, 600, 10)
+  Rail.DrawNote(playField.rails[0], 100)
+  Rail.DrawNote(playField.rails[1], 200)
+  Rail.DrawNote(playField.rails[2], 300)
+  Rail.DrawNote(playField.rails[3], 400)
 end
 
 function PlayField.DrawNote()

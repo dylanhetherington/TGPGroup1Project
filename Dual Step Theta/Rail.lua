@@ -26,12 +26,19 @@ function Rail.CheckNextNote(self, timer)
   end
   return false
 end
-
-function Rail.DrawNote(self, dt, railX)
-  for i, note in pairs(notes) do
+function Rail.Update(self, dt, timer)
+  Rail.CheckNextNote(self, timer)
+  for i, note in pairs(self.notes) do
     if (note.active == true) then
-      love.graphics.rectangle(fill, railX, note.yPosition, 100, 20)
-      note.yPosition = note.yPosition + dt
+        note.yPosition = note.yPosition + dt
+    end
+  end
+end
+function Rail.DrawNote(self, railX)
+  for i, note in pairs(self.notes) do
+    if (note.active == true) then
+      love.graphics.setColor(255, 0, 0, 255)
+      love.graphics.rectangle("fill", railX, note.yPosition, 100, 20)
     end
   end
 end

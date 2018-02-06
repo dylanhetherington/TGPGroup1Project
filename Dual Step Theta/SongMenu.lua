@@ -47,11 +47,14 @@ function SongMenu.SelectSong()
   gameState = "Play"
   LoadPlayField(songMenu.songList[songMenu.selectedPosition])
 end
+
 function FileLoad()
   local fileCount = 1
+  local songCount = 0
   for line in love.filesystem.lines("Songs/Directory.txt") do
     table.insert(songDirectory, line)
-    for i = 0, TableCount(songDirectory) -1, 3 do
+  end
+    for i = 0, TableCount(songDirectory) -1, 1 do
       songDataStore = {}
       for line in love.filesystem.lines("Songs/"..songDirectory[fileCount]) do
         table.insert(songDataStore, line)
@@ -62,10 +65,10 @@ function FileLoad()
       Song.StoreData(songEasy, 0)
       Song.StoreData(songMid, 1)
       Song.StoreData(songHard, 2)
-      songMenu.songList[i] = songEasy
-      songMenu.songList[i+1] = songMid
-      songMenu.songList[i+2] = songHard
+      songMenu.songList[songCount] = songEasy
+      songMenu.songList[songCount+1] = songMid
+      songMenu.songList[songCount+2] = songHard
+      songCount = songCount + 3
       fileCount = fileCount + 1
     end
-  end
 end 
