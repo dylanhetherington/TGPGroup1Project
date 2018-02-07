@@ -29,12 +29,15 @@ function Rail.AddNote(self, note)
 end
 
 function Rail.CheckNextNote(self, timer)
-  if (self.notes[self.nextNoteIndex].startTime ~= nil ) then
-    --print(self.notes[self.nextNoteIndex].startTime)
-    if (self.notes[self.nextNoteIndex].startTime <= timer) then
-      self.notes[self.nextNoteIndex].active = true
+  if (self.notes[self.nextNoteIndex] ~= nil) then
+    if (self.notes[self.nextNoteIndex].startTime ~= nil ) then
+      if (self.notes[self.nextNoteIndex].startTime <= timer ) then
+        self.notes[self.nextNoteIndex].active = true
+        self.nextNoteIndex = self.nextNoteIndex + 1
+        return true
+      end
+    else
       self.nextNoteIndex = self.nextNoteIndex + 1
-      return true
     end
   end
   return false
@@ -50,7 +53,7 @@ end
 function Rail.DrawNote(self, railX)
   for i, note in pairs(self.notes) do
     if (note.active == true) then
-      love.graphics.draw(self.singleNoteGraphic,railX, note.yPosition, 0, 0.05, 0.05)
+      love.graphics.draw(self.singleNoteGraphic,railX, note.yPosition, 0, 0.07, 0.07)
     end
   end
 end
