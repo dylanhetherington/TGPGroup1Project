@@ -66,7 +66,6 @@ function Song.LoadNotes(self)
     note = Note.New()
     Note.StoreData(note,i)
     self.notes[i] = note
-    print(note.startTime)
   end
 end
 

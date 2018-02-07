@@ -22,7 +22,7 @@ function PlayField.New(song)
 end
 
 function PlayField.CreateRails(self)
-  railOne = Rail.New();  railTwo = Rail.New(); railThree = Rail.New(); railFour = Rail.New()
+  railOne = Rail.New(0);  railTwo = Rail.New(1); railThree = Rail.New(2); railFour = Rail.New(3)
   self.rails[0] = railOne; self.rails[1] = railTwo; self.rails[2] = railThree; self.rails[3] = railFour
   for i, note in pairs(self.song.notes) do
     if (note.rail == 0) then
