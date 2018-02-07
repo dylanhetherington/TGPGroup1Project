@@ -24,7 +24,7 @@ function love.draw()
     elseif (gameState == "SongMenu") then
     SongMenu.Draw()
   elseif(gameState == "Play") then
-    love.graphics.setBackgroundColor(0,125,125)
+    love.graphics.setBackgroundColor(0,0,0)
     PlayField.Draw()
   end
 end 
