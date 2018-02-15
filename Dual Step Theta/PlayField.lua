@@ -80,3 +80,7 @@ end
 function PlayField.DrawNote()
   
 end
+
+function RailsPressed()
+  
+end
