@@ -13,6 +13,7 @@ function SongMenu.Init()
   FileLoad()
   return songMenu
 end
+
 function SongMenu.SongSearch()
   --check player keyboard input against songMenu.songList.songName
   --triggerd when player hits enter
@@ -48,6 +49,7 @@ function SongMenu.SelectSong()
   gameState = "Play"
   LoadPlayField(songMenu.songList[songMenu.selectedPosition])
 end
+
 function FileLoad()
   local fileCount = 1
   for line in love.filesystem.lines("Songs/Directory.txt") do
