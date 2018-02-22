@@ -6,40 +6,52 @@ Scoremanager = {totalNotes,
                 percentageNotesHit,
                 notesMissed,}
 
-function ScoreManager(totalNotes)
-  
+function ScoreManager(totalNotesSong)
+  scoreManager = setmetatable({}, ScoreManager)
+  scoreManager.totalNotes = totalNotesSong
+  scoreManager.notesHit = 0
+  scoreManager.combo = 0
+  scoreManager.score = 0
+  scoreManager.health = 0
+  scoreManager.percentageNotesHit = 0
+  scoreManager.notesMissed = 0
+  return scoreManager
 end
   
 function IncrementNotesHit(self)
-  self.notesHit
+  self.notesHit = self.notesHit + 1
 end
 
 function GetNotesHit(self)
-  self.notesHit
+  return self.notesHit
 end
 
 function IncrementCombo(self)
-  self.combo
+  self.combo = self.combo + 1
 end
 
 function ResetCombo(self)
-  self.combo
+  self.combo = 0
 end
 
 function GetScore(self)
-  self.score
+  return self.score
 end
 
 function GetPercentage(self)
-  self.percentageNotesHit
+  return self.percentageNotesHit
 end
 
 function IncrementNotesMissed(self)
-  self.notesMissed
+  self.notesMissed = self.notesMissed + 1
 end
 
-function CheckSongEnd
-  
+function CheckSongEnd(self)
+  if self.notesHit + self.notesMissed >= self.totalNotes then
+    return true
+  else
+    return false
+  end
 end
 
 function Accuracy(self)
