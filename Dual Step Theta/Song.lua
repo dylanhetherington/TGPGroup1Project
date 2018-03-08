@@ -10,7 +10,8 @@ Song = {songName,
         audioFile,
         audioPreview,
         artFile,
-        notes }
+        notes,
+        totalNotes}
 
 function Song.New()
   song = setmetatable({}, Song)
@@ -25,6 +26,7 @@ function Song.New()
   song.audioPreview = ""
   song.artFile = ""
   song.notes = {}
+  song.totalNotes = 0
   return song
 end
 
@@ -66,6 +68,7 @@ function Song.LoadNotes(self)
     note = Note.New()
     Note.StoreData(note,i)
     self.notes[i] = note
+    self.totalNotes = self.totalNotes + 1
   end
 end
 

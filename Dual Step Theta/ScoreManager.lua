@@ -1,4 +1,4 @@
-Scoremanager = {totalNotes,
+ScoreManager = {totalNotes,
                 notesHit,
                 combo,
                 score,
@@ -6,7 +6,7 @@ Scoremanager = {totalNotes,
                 percentageNotesHit,
                 notesMissed,}
 
-function ScoreManager(totalNotesSong)
+function ScoreManager.New(totalNotesSong)
   scoreManager = setmetatable({}, ScoreManager)
   scoreManager.totalNotes = totalNotesSong
   scoreManager.notesHit = 0
@@ -18,35 +18,35 @@ function ScoreManager(totalNotesSong)
   return scoreManager
 end
   
-function IncrementNotesHit(self)
+function ScoreManager.IncrementNotesHit(self)
   self.notesHit = self.notesHit + 1
 end
 
-function GetNotesHit(self)
+function ScoreManager.GetNotesHit(self)
   return self.notesHit
 end
 
-function IncrementCombo(self)
+function ScoreManager.IncrementCombo(self)
   self.combo = self.combo + 1
 end
 
-function ResetCombo(self)
+function ScoreManager.ResetCombo(self)
   self.combo = 0
 end
 
-function GetScore(self)
+function ScoreManager.GetScore(self)
   return self.score
 end
 
-function GetPercentage(self)
+function ScoreManager.GetPercentage(self)
   return self.percentageNotesHit
 end
 
-function IncrementNotesMissed(self)
+function ScoreManager.IncrementNotesMissed(self)
   self.notesMissed = self.notesMissed + 1
 end
 
-function CheckSongEnd(self)
+function ScoreManager.CheckSongEnd(self)
   if self.notesHit + self.notesMissed >= self.totalNotes then
     return true
   else
@@ -54,14 +54,22 @@ function CheckSongEnd(self)
   end
 end
 
-function Accuracy(self)
+function ScoreManager.Accuracy(self, value)
+  if (value >= 1000) then
+    --loseHealth
+  elseif (value >= 500 and value <  1000 )then
+    --hit
+  elseif (value >=100 and value < 500 ) then
+    --good hit
+  elseif (value < 100) then
+    --perfect
+  end
+end
+
+function ScoreManager.CheckGameOver()
   
 end
 
-function CheckGameOver
-  
-end
-
-function DecrementHealth(self)
-  self.health
+function ScoreManager.DecrementHealth(self)
+  self.health = self.health - 1
 end
