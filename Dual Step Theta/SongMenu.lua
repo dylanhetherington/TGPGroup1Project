@@ -9,8 +9,13 @@ function SongMenu.Init()
   songMenu = setmetatable({}, SongMenu) 
   songMenu.songList = {}
   songMenu.songDisplay = {} --list of 7 songs to be drawn
-  songMenu.selectedPosition = 0;
+  songMenu.selectedPosition = 0
   FileLoad()
+  songArt = {}
+  jump = 0
+  for i = 1,9 do
+    songArt[i] = love.graphics.newImage('Assets/wipsong'..i..'.png')
+  end
   return songMenu
 end
 
@@ -21,6 +26,9 @@ function SongMenu.SongSearch()
 end
 
 function SongMenu.Draw()
+  for i = 1,9 do
+    love.graphics.draw(songArt[i],1100,150*i-50-jump)
+  end
   --Draw graphics of the 7 songs stored in the songDisplay array
   --draw box with song graphic (songMenu.songDisplay[number].artFile)
   --give each song border
@@ -35,9 +43,15 @@ function SongMenu.Update(dt)
   --songs scroll in sets of 3 cause 3 slots used for difficulty settings
   --callScrollThroughMenu
   --play shortAudio for selectedSong
+  if (love.keyboard.isDown('down')) then
+    jump = jump + 150
+  end
+  if (love.keyboard.('up')) then
+    jump = jump - 150
+  end
   if (love.keyboard.isDown('9')) then --remove this is only here to allow for debugging and getting to the playfield
     SongMenu.SelectSong()
-    end
+  end
 end
 
 function SongMenu.ScrollThroughMenu()

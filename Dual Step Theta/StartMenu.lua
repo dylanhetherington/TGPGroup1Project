@@ -16,7 +16,7 @@ end
 
 function StartMenu.Update(dt)
   timer = timer + dt
-  maxTimer = 2
+  maxTimer = 1
   if(bg == bg1 and timer >= maxTimer)then
     bg = bg2
     timer = 0
