@@ -1,0 +1,24 @@
+No brand girls
+u's
+NoBrandGirls/u's - No Brand Girls.mp3
+NoBrandGirls/u's - No Brand Girls Short.mp3
+NoBrandGirls/NBG
+0
+[Diffculty 0]
+Easy
+3
+NoBrandGirls/NoBrandGirlsEasy.txt
+000000
+000000
+[Diffculty 1]
+Medium
+5
+NoBrandGirls/NoBrandGirlsMed.txt
+000000
+000000
+[Diffculty 2]
+Hard
+9
+NoBrandGirls/NoBrandGirlsHard.txt
+000000
+000000
