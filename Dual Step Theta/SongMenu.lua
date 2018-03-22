@@ -16,6 +16,7 @@ function SongMenu.Init()
   for i = 1,9 do
     songArt[i] = love.graphics.newImage('Assets/wipsong'..i..'.png')
   end
+  songSelect = love.graphics.newImage('Assets/wipsongselect.png')
   return songMenu
 end
 
@@ -26,6 +27,7 @@ function SongMenu.SongSearch()
 end
 
 function SongMenu.Draw()
+  love.graphics.draw(songSelect,1075,375)
   for i = 1,9 do
     love.graphics.draw(songArt[i],1100,150*i-50-jump)
   end
@@ -43,11 +45,14 @@ function SongMenu.Update(dt)
   --songs scroll in sets of 3 cause 3 slots used for difficulty settings
   --callScrollThroughMenu
   --play shortAudio for selectedSong
-  if (love.keyboard.isDown('down')) then
+  timer = timer + dt
+  maxTimer = 0.2
+  if (timer >= maxTimer and love.keyboard.isDown('down')) then
     jump = jump + 150
-  end
-  if (love.keyboard.('up')) then
+    timer = 0
+  elseif (timer >= maxTimer and love.keyboard.isDown('up')) then
     jump = jump - 150
+    timer = 0
   end
   if (love.keyboard.isDown('9')) then --remove this is only here to allow for debugging and getting to the playfield
     SongMenu.SelectSong()
