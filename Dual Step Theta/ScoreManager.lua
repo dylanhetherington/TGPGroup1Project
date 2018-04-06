@@ -58,7 +58,6 @@ function ScoreManager.CheckSongEnd(self)
 end
 
 function ScoreManager.Accuracy(self, value)
-    love.graphics.setColor(0, 255, 0, 255)
   if (value >= 1000 and value <= 10000) then
     --loseHealth
   elseif (value >= 500 and value <  1000 )then

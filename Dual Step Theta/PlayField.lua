@@ -3,6 +3,9 @@ require 'Rail'
 require 'ScoreManager'
 require 'Note'
 
+local background = love.graphics.newImage('Assets/voidBackground1080.png')
+local UI = love.graphics.newImage('Assets/PlayFieldUI1080.png')
+local hitBarrier = love.graphics.newImage('Assets/NoteHitBarrier1080.png')
 local songStart = false
 local pause = false
 PlayField = { timer,
@@ -56,14 +59,16 @@ function PlayField.Update(dt)
     if (songStart == false and playField.timer >= 1.3) then
       playField.songAudio:play()
       songStart = true
+      --playField.timer = 0
     end
     playField.timer = playField.timer + dt
-    Rail.Update(playField.rails[0], dt, playField.timer)
-    Rail.Update(playField.rails[1], dt, playField.timer)
-    Rail.Update(playField.rails[2], dt, playField.timer)
-    Rail.Update(playField.rails[3], dt, playField.timer)
-    if (love.keyboard.isDown('8')) then
-      pause = true
+
+      Rail.Update(playField.rails[0], dt, playField.timer)
+      Rail.Update(playField.rails[1], dt, playField.timer)
+      Rail.Update(playField.rails[2], dt, playField.timer)
+      Rail.Update(playField.rails[3], dt, playField.timer)
+      if (love.keyboard.isDown('8')) then
+        pause = true
     end
   end
   if (pause == true) then
@@ -76,6 +81,10 @@ function PlayField.Update(dt)
 end
 
 function PlayField.Draw()
+  love.graphics.draw(background,0, 0)
+  love.graphics.draw(UI,0, 0)
+  love.graphics.draw(hitBarrier,0, 0)
+  love.graphics.setColor(0, 255, 0, 255)
         --love.graphics.print("Miss", 800, 300,0,4,4)
   love.graphics.print(playField.timer, 600, 10)
     if (perfect == true) then
@@ -89,10 +98,16 @@ function PlayField.Draw()
   elseif (safe == true) then
     love.graphics.print("SAFE", 800, 300, 0, 4,4)
   end
-  Rail.DrawNote(playField.rails[0], 100)
-  Rail.DrawNote(playField.rails[1], 300)
-  Rail.DrawNote(playField.rails[2], 500)
-  Rail.DrawNote(playField.rails[3], 700)
+  love.graphics.setColor(255,255,255,255)
+  Rail.DrawNote(playField.rails[0], 96)
+  Rail.DrawNote(playField.rails[1], 288)
+  Rail.DrawNote(playField.rails[2], 480)
+  Rail.DrawNote(playField.rails[3], 672)
+  perfect = false;
+  hit = false;
+  miss = false;
+  close = false;
+  safe = false;
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -115,13 +130,13 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function PlayField.Accuracy(value)
-  if (value >= 1000 and value <= 10000) then
+  if (value >= 500 and value <= 1000) then
     miss = true
     --loseHealth
-  elseif (value >= 500 and value <  1000 )then
+  elseif (value >= 200 and value <  500 )then
     close = true
     --hit
-  elseif (value >=100 and value < 500 ) then
+  elseif (value >=100 and value < 200 ) then
     hit = true
     --good hit
   elseif (value < 100) then

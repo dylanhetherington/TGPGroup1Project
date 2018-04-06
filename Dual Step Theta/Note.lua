@@ -19,7 +19,7 @@ end
 function Note.StoreData(self, i)
   self.rail, self.startTime, self.noteType, self.endTime = noteDataStore[i+1]:match  '(%S+)%s+(%S+)%s+(%S+)%s+(%S+)'
   self.rail = tonumber(self.rail)
-  self.startTime = tonumber(self.startTime)
+  self.startTime = tonumber(self.startTime + 1300)
   self.noteType = tonumber(self.noteType)
   self.endTime = tonumber(self.endTime)
   if (self.endTime == 0) then

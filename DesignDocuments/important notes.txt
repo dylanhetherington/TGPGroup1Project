@@ -1,0 +1,1 @@
+1066 ms for note to scroll across the screen
