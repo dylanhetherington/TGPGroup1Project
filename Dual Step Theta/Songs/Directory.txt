@@ -1,1 +1,7 @@
-TestSong/TestSongData.txt
+TestSong/TestSongData1.txt
+TestSong/TestSongData2.txt
+TestSong/TestSongData3.txt
+TestSong/TestSongData4.txt
+TestSong/TestSongData5.txt
+TestSong/TestSongData6.txt
+TestSong/TestSongData7.txt
