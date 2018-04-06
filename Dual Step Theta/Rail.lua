@@ -67,12 +67,14 @@ function Rail.DrawNote(self, railX)
 end
 
 function Rail.InteractWithNote(self, timer)
-  self.notes[self.NoteInPlay] = checkNote
-  accuracy = 10000
-  if (checkNote.active == true) then
-    accuracy = (timer * 1000) - checkNote.startTime
-    self.notes[self.NoteInPlay].active = false
-    self.NoteInPlay = self.NoteInPlay + 1
+  self.notes[self.noteInPlay] = checkNote
+  accuracy = 100001
+  if (checkNote ~= nil) then
+    if (checkNote.active == true) then
+      accuracy = (timer * 1000) - checkNote.startTime
+      self.notes[self.noteInPlay].active = false
+      self.noteInPlay = self.noteInPlay + 1
+    end
   end
   return accuracy
 end

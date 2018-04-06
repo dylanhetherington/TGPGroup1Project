@@ -1,12 +1,14 @@
+--require 'PlayField'
 ScoreManager = {totalNotes,
                 notesHit,
                 combo,
                 score,
                 health,
                 percentageNotesHit,
-                notesMissed,}
+                notesMissed,
+                playField,}
 
-function ScoreManager.New(totalNotesSong)
+function ScoreManager.New(totalNotesSong, PlayField)
   scoreManager = setmetatable({}, ScoreManager)
   scoreManager.totalNotes = totalNotesSong
   scoreManager.notesHit = 0
@@ -15,6 +17,7 @@ function ScoreManager.New(totalNotesSong)
   scoreManager.health = 0
   scoreManager.percentageNotesHit = 0
   scoreManager.notesMissed = 0
+  scoreManager.playField = PlayField
   return scoreManager
 end
   
@@ -55,14 +58,18 @@ function ScoreManager.CheckSongEnd(self)
 end
 
 function ScoreManager.Accuracy(self, value)
-  if (value >= 1000) then
+    love.graphics.setColor(0, 255, 0, 255)
+  if (value >= 1000 and value <= 10000) then
     --loseHealth
   elseif (value >= 500 and value <  1000 )then
     --hit
   elseif (value >=100 and value < 500 ) then
     --good hit
   elseif (value < 100) then
+
     --perfect
+  else
+    --nothing happens note was not active.
   end
 end
 

@@ -12,13 +12,19 @@ PlayField = { timer,
               song,
               songAudio,}
 
+miss = false
+hit = false
+close = false
+perfect = false
+safe = false
+
 function PlayField.New(song)
   playField = setmetatable({}, PlayField)
   playField.timer = 0.0
   playField.rails = {}
   --playField.user = User.New()
   playField.song = song
-  playField.scoreManager = ScoreManager.New(song.totalNotes)
+  playField.scoreManager = ScoreManager.New(song.totalNotes, self)
   PlayField.CreateRails(playField)
   playField.songAudio = PlayField.LoadSongAudio(playField.song.audioFile)
   return playField
@@ -70,37 +76,60 @@ function PlayField.Update(dt)
 end
 
 function PlayField.Draw()
+        --love.graphics.print("Miss", 800, 300,0,4,4)
   love.graphics.print(playField.timer, 600, 10)
+    if (perfect == true) then
+        love.graphics.print("PERFECT", 800, 300,0,4,4)
+  elseif (hit == true) then
+        love.graphics.print("HIT", 800, 300,0,4,4)
+  elseif (close == true) then
+        love.graphics.print("CLOSE", 800, 300,0,4,4)
+  elseif (miss == true) then
+        love.graphics.print("MISS", 800, 300,0,4,4)
+  elseif (safe == true) then
+    love.graphics.print("SAFE", 800, 300, 0, 4,4)
+  end
   Rail.DrawNote(playField.rails[0], 100)
   Rail.DrawNote(playField.rails[1], 300)
   Rail.DrawNote(playField.rails[2], 500)
   Rail.DrawNote(playField.rails[3], 700)
 end
 
-function PlayField.DrawNote()
-  
+function love.keypressed(key, scancode, isrepeat)
+  if (key == "d") then
+    accuracy = Rail.InteractWithNote(playField.rails[0], playField.timer)
+    PlayField.Accuracy(accuracy)
+  end
+  if (key == "f") then
+    accuracy = Rail.InteractWithNote(playField.rails[1], playField.timer)
+    PlayField.Accuracy(accuracy)
+  end
+  if (key == "k") then
+    accuracy = Rail.InteractWithNote(playField.rails[2], playField.timer)
+    PlayField.Accuracy(accuracy)
+  end
+  if (key == "l") then
+    accuracy = Rail.InteractWithNote(playField.rails[3], playField.timer)
+    PlayField.Accuracy(accuracy) 
+  end
 end
 
-function RailsPressed()
-  
-end
-
-function love.keypressed("d")
-  accuracy = Rail.InteractWithNote(playField.rails[0], playField.timer)
-  ScoreManager.Accuracy(playField.scoreManager, accuracy)
-end
-
-function love.keypressed("f")
-  accuracy = Rail.InteractWithNote(playField.rails[1], playField.timer)
-  ScoreManager.Accuracy(playField.scoreManager, accuracy)
-end
-
-function(love.keypressed("k")
-  accuracy = Rail.InteractWithNote(playField.rails[2], playField.timer)
-  ScoreManager.Accuracy(playField.scoreManager, accuracy)
-end
-
-function(love.keypressed("l")
-  accuracy = Rail.InteractWithNote(playField.rails[3], playField.timer)
+function PlayField.Accuracy(value)
+  if (value >= 1000 and value <= 10000) then
+    miss = true
+    --loseHealth
+  elseif (value >= 500 and value <  1000 )then
+    close = true
+    --hit
+  elseif (value >=100 and value < 500 ) then
+    hit = true
+    --good hit
+  elseif (value < 100) then
+    perfect = true
+    --perfect
+  else
+    --nothing happens note was not active.
+    safe = true
+  end
   ScoreManager.Accuracy(playField.scoreManager, accuracy)
 end
