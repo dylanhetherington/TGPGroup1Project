@@ -5,6 +5,7 @@ Rail = { notes,
         singleNoteGraphic,
         noteInPlay,
         }
+
   
 function Rail.New(railNumber)
   rail = setmetatable({}, Rail)
@@ -28,7 +29,7 @@ function Rail.CheckNextNote(self, timer)
     if (self.notes[self.nextNoteIndex].startTime ~= nil ) then
       --print("startTime not nill")
       if (self.notes[self.nextNoteIndex].startTime <= timer ) then
---print("note start   "..timer)
+        --print("note start   "..timer)
         self.notes[self.nextNoteIndex].active = true
         self.nextNoteIndex = self.nextNoteIndex + 1
         return true
@@ -46,7 +47,7 @@ function Rail.Update(self, dt, timer)
     if (note.active == true) then
         note.yPosition = note.yPosition + dt * 1000
         if (note.yPosition >= 1080) then
-          --print("note end   "..timer * 1000)
+        --print("note end   "..timer * 1000)
         note.active = false
         self.noteInPlay = self.noteInPlay + 1
         end
@@ -57,25 +58,27 @@ end
 function Rail.DrawNote(self, railX)
   for i, note in pairs(self.notes) do
     if (note.active == true) then
-      love.graphics.draw(self.singleNoteGraphic,railX, note.yPosition, 0)
+      love.graphics.draw(self.singleNoteGraphic,railX, note.yPosition, 0,0.5,0.5) 
     end
   end
 end
 
-function Rail.InteractWithNote(self, timer)
+function Rail.InteractWithNote(self, timer, railX)
   checkNote = self.notes[self.noteInPlay] 
   accuracy = 100001
   if (checkNote ~= nil) then
     --print("note not nill")
     if (checkNote.active == true) then
-      accuracy = ((timer * 1000) - checkNote.startTime) - 1066
-      print("time   "..timer * 1000)
-      print("noteTime   "..checkNote.startTime)
-      print("accuracy   "..accuracy)
-      if (accuracy <= 1000) then
+      accuracy = (timer * 1000) - (checkNote.startTime + 917) --917 time for note to drop to hit bar
+        print("time   "..timer * 1000)
+        print("noteTime   "..checkNote.startTime)
+        print("accuracy   "..accuracy)
+      if (accuracy >= -300 and accuracy < 10) then
         self.notes[self.noteInPlay].active = false
         self.noteInPlay = self.noteInPlay + 1
+       
       end
+      --if (accuracy < 10 and acuracy >= -500) then
     end
   end
   return accuracy
