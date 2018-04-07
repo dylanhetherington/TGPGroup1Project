@@ -11,16 +11,25 @@ function SongMenu.Init()
   songMenu.songList = {}
   songMenu.songDisplay = {} --list of 7 songs to be drawn
   songMenu.selectedPosition = 0
-  baseSong = 0
+  baseSong = {}
   FileLoad()
   songArt = {}
-  jump = 0
   canJump = true
-  for i = 1, TableCount(songMenu.songList) do
-    songArt[i] = love.graphics.newImage('Assets/'..songMenu.songList[i].artFile)
-    print(i)
-  end
   songSelect = love.graphics.newImage('Assets/wipsongselect.png')
+  for i = 1,7 do
+    baseSong[i] = i
+  end
+  for i = 1,7 do
+    songMenu.songDisplay[i] = songMenu.songList[baseSong[i]]
+  end
+  
+  for i = 1, TableCount(songMenu.songDisplay) do
+    songArt[i] = love.graphics.newImage('Assets/'..songMenu.songDisplay[i].artFile)
+  end
+  
+  font = love.graphics.newFont(38)
+  love.graphics.setFont(font)
+  
   return songMenu
 end
 
@@ -32,16 +41,18 @@ end
 
 function SongMenu.Draw()
   love.graphics.draw(songSelect,1075,375)
-  --for i = 1,7 do
-  --  love.graphics.draw(songArt[i],1100,150*i-1250-jump*150)
-  --end
-  for i = 1+baseSong,7+baseSong do
-    love.graphics.draw(songArt[i],1100,150*i-200-jump*150)
+  for i = 1,7 do
+    love.graphics.draw(songArt[i],1100,150*i-200)
   end
-  --for i = 1,7 do
-  --  love.graphics.draw(songArt[i],1100,150*i+850-jump*150)
-  --end
-  --love.graphics.print(songMenu.songDisplay[4+jump].songName,900,450)
+  if TableCount(songMenu.songDisplay) > 0 then
+    love.graphics.print('Name: '..songMenu.songDisplay[4].songName,150,250)
+    love.graphics.print('Difficulty: '..songMenu.songDisplay[4].difficulty,150,350)
+    love.graphics.print('Rating: '..songMenu.songDisplay[4].rating,150,450)
+    love.graphics.print('Best Score: '..songMenu.songDisplay[4].bestScore,150,550)
+    love.graphics.print('Previous Score: '..songMenu.songDisplay[4].previousScore,150,650)
+  end
+  
+  love.graphics.print('Current Combo: '..'like 5',75,75)
   
   --Draw graphics of the 7 songs stored in the songDisplay array
   --draw box with song graphic (songMenu.songDisplay[number].artFile)
@@ -59,38 +70,40 @@ function SongMenu.Update(dt)
   --callScrollThroughMenu
   --play shortAudio for selectedSong
   for i = 1,7 do
-    songMenu.songDisplay[i] = songMenu.songList[i+baseSong]
+    songMenu.songDisplay[i] = songMenu.songList[baseSong[i]]
+  end
+  
+  for i = 1, 7 do
+    songArt[i] = love.graphics.newImage('Assets/'..songMenu.songDisplay[i].artFile)
   end
   
   if (canJump and love.keyboard.isDown('down')) then
-    jump = jump + 1
     canJump = false
-    baseSong = baseSong + 1
+    for i = 1,7 do
+      baseSong[i] = baseSong[i] + 1
+    end
   elseif (canJump and love.keyboard.isDown('up')) then
-    jump = jump - 1
     canJump = false
-    baseSong = baseSong - 1
+        for i = 1,7 do
+      baseSong[i] = baseSong[i] - 1
+    end
   end
   
   if (not love.keyboard.isDown('down') and not love.keyboard.isDown('up')) then
     canJump = true
   end
-  
-  if (jump > 3) then
-    jump = -3
-  end
-    
-  if (jump < -3) then
-    jump = 3
+  for i = 1,7 do
+    if (baseSong[i] > TableCount(songMenu.songList)) then
+      baseSong[i] = 1
+    end
+    if (baseSong[i] < 1) then
+      baseSong[i] = TableCount(songMenu.songList)
+    end
   end
   
   if (love.keyboard.isDown('9')) then --remove this is only here to allow for debugging and getting to the playfield
     SongMenu.SelectSong()
   end
-end
-
-function SongMenu.ScrollThroughMenu()
-  --update songs loaded into array
 end
 
 function SongMenu.SelectSong()
@@ -104,20 +117,20 @@ function FileLoad()
   for line in love.filesystem.lines("Songs/Directory.txt") do
     table.insert(songDirectory, line)
   end
-  for i = 1, TableCount(songDirectory),1  do
+  for i = 1, TableCount(songDirectory)*3,3 do
     songDataStore = {}
     for line in love.filesystem.lines("Songs/"..songDirectory[fileCount]) do
       table.insert(songDataStore, line)
     end
     songEasy = Song.New()
-    --songMid = Song.New()
-    --songHard = Song.New()
+    songMid = Song.New()
+    songHard = Song.New()
     Song.StoreData(songEasy, 0)
-    --Song.StoreData(songMid, 1)
-    --Song.StoreData(songHard, 2)
+    Song.StoreData(songMid, 1)
+    Song.StoreData(songHard, 2)
     songMenu.songList[i] = songEasy
-    --songMenu.songList[i+1] = songMid
-    --songMenu.songList[i+2] = songHard
+    songMenu.songList[i+1] = songMid
+    songMenu.songList[i+2] = songHard
     fileCount = fileCount + 1
   end
 end 

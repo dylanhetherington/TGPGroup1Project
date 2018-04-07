@@ -6,18 +6,18 @@ devil5.png
 [Difficulty 0]
 Easy
 3
-TestSongEasyChart5.txt
+TestSongEasyChart.txt
 974890
 560224
 [Difficulty 1]
 Hard
 7
-TestSongMidChart5.txt
+TestSongMidChart.txt
 90000
 60000
 [Difficulty 2]
 Expert
 14
-TestSongHardChart5.txt
+TestSongHardChart.txt
 974890
 560224
