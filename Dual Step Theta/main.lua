@@ -8,6 +8,7 @@ function love.load()
   keyDown = false
   StartMenu.Init()
 end
+
 function love.update(dt)
   if (gameState == "Start") then
     StartMenu.Update(dt)
