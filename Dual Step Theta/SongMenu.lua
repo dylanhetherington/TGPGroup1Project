@@ -92,6 +92,7 @@ function SongMenu.Update(dt)
   if (not love.keyboard.isDown('down') and not love.keyboard.isDown('up')) then
     canJump = true
   end
+  
   for i = 1,7 do
     if (baseSong[i] > TableCount(songMenu.songList)) then
       baseSong[i] = 1
@@ -134,3 +135,24 @@ function FileLoad()
     fileCount = fileCount + 1
   end
 end 
+
+function love.wheelmoved(x,y)
+  if(y<0)then
+    for i = 1,7 do
+      baseSong[i] = baseSong[i] + 1
+    end
+  elseif(y>0)then
+    for i = 1,7 do
+      baseSong[i] = baseSong[i] - 1
+    end
+  end
+  
+  for i = 1,7 do
+    if (baseSong[i] > TableCount(songMenu.songList)) then
+      baseSong[i] = 1
+    end
+    if (baseSong[i] < 1) then
+      baseSong[i] = TableCount(songMenu.songList)
+    end
+  end
+end
