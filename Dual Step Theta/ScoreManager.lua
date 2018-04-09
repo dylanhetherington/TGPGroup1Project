@@ -58,21 +58,6 @@ function ScoreManager.CheckSongEnd(self)
   end
 end
 
-function ScoreManager.Accuracy(self, value)
-  if (value >= 1000 and value <= 10000) then
-    --loseHealth
-  elseif (value >= 500 and value <  1000 )then
-    --hit
-  elseif (value >=100 and value < 500 ) then
-    --good hit
-  elseif (value < 100) then
-
-    --perfect
-  else
-    --nothing happens note was not active.
-  end
-end
-
 function ScoreManager.CheckGameOver()
   
 end

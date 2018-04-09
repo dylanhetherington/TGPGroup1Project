@@ -191,5 +191,4 @@ function PlayField.Accuracy(value, railNumber)
       hitTimer4 = 0  
     end
   end
-  ScoreManager.Accuracy(playField.scoreManager, accuracy)
 end

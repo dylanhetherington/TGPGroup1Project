@@ -90,7 +90,7 @@ end
 function SongMenu.SelectSong()
   --create a playfield, send in song that is in position = to selectedPosition
   gameState = "Play"
-  LoadPlayField(songMenu.songList[songMenu.selectedPosition])
+  LoadPlayField(songMenu.songDisplay[4])
 end
 
 function FileLoad()

@@ -4,6 +4,7 @@ Rail = { notes,
         totalNotes,
         singleNoteGraphic,
         noteInPlay,
+        railNumber,
         }
 
   
@@ -14,6 +15,7 @@ function Rail.New(railNumber)
   rail.totalNotes = 0
   rail.noteInPlay = 0
   rail.singleNoteGraphic = love.graphics.newImage('Assets/NoteGem1080.png')
+  rail.railNumber = railNumber
   return rail
 end
 
@@ -50,6 +52,7 @@ function Rail.Update(self, dt, timer)
         --print("note end   "..timer * 1000)
         note.active = false
         self.noteInPlay = self.noteInPlay + 1
+        PlayField.Accuracy(-500, self.railNumber)
         end
     end
   end
