@@ -10,7 +10,8 @@ Song = {songName,
         audioFile,
         audioPreview,
         artFile,
-        notes }
+        notes,
+        totalNotes}
 
 function Song.New()
   song = setmetatable({}, Song)
@@ -25,6 +26,7 @@ function Song.New()
   song.audioPreview = ""
   song.artFile = ""
   song.notes = {}
+  song.totalNotes = 0
   return song
 end
 
@@ -59,13 +61,14 @@ end
 
 function Song.LoadNotes(self)
   noteDataStore = {}
-  for line in love.filesystem.lines("Songs/TestSong/"..self.noteChart) do
+  for line in love.filesystem.lines("Songs/"..self.noteChart) do
     table.insert(noteDataStore, line)
   end
   for i = 0, TableCount(noteDataStore) -1, 1 do
     note = Note.New()
     Note.StoreData(note,i)
     self.notes[i] = note
+    self.totalNotes = self.totalNotes + 1
   end
 end
 
