@@ -48,10 +48,11 @@ function Rail.Update(self, dt, timer)
   for i, note in pairs(self.notes) do
     if (note.active == true) then
         note.yPosition = note.yPosition + dt * 1000
-        if (note.yPosition >= 1080) then
+        if (note.yPosition >= 920) then
         --print("note end   "..timer * 1000)
         note.active = false
         self.noteInPlay = self.noteInPlay + 1
+        ScoreManager.IncrementNotesMissed(playField.scoreManager)
         PlayField.Accuracy(-500, self.railNumber)
         end
     end
@@ -72,7 +73,7 @@ function Rail.InteractWithNote(self, timer, railX)
   if (checkNote ~= nil) then
     --print("note not nill")
     if (checkNote.active == true) then
-      accuracy = (timer * 1000) - (checkNote.startTime + 917) --917 time for note to drop to hit bar
+      accuracy = (timer * 1000) - (checkNote.startTime + 1834) --917 time for note to drop to hit bar
         print("time   "..timer * 1000)
         print("noteTime   "..checkNote.startTime)
         print("accuracy   "..accuracy)

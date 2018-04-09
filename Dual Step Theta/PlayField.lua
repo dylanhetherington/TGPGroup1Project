@@ -8,7 +8,6 @@ local background = love.graphics.newImage('Assets/voidBackground1080.png')
 local UI = love.graphics.newImage('Assets/PlayFieldUI1080.png')
 local hitBarrier = love.graphics.newImage('Assets/NoteHitBarrier1080.png')
 local hitConfirm =  love.graphics.newImage('Assets/HitConfirm1080.png')
-
 local songStart = false
 local pause = false
 
@@ -40,6 +39,8 @@ function PlayField.New(song)
   playField.scoreManager = ScoreManager.New(song.totalNotes, self)
   PlayField.CreateRails(playField)
   playField.songAudio = PlayField.LoadSongAudio(playField.song.audioFile)
+  songArt = love.graphics.newImage('Songs/'..playField.song.artFile)
+  endTimer = 0
   return playField
 end
 
@@ -70,46 +71,36 @@ function PlayField.Update(dt)
       playField.songAudio:play()
       songStart = true
     end
-    playField.timer = playField.timer + dt / 2
+    playField.timer = playField.timer + dt
     hitTimer1 = hitTimer1 + dt
     hitTimer2 = hitTimer2 + dt
     hitTimer3 = hitTimer3 + dt
     hitTimer4 = hitTimer4 + dt
-      Rail.Update(playField.rails[0], dt/2, playField.timer)
-      Rail.Update(playField.rails[1], dt/2, playField.timer)
-      Rail.Update(playField.rails[2], dt/2, playField.timer)
-      Rail.Update(playField.rails[3], dt/2, playField.timer)
-      if (love.keyboard.isDown('8')) then
-        pause = true
+    Rail.Update(playField.rails[0], dt/2, playField.timer)
+    Rail.Update(playField.rails[1], dt/2, playField.timer)
+    Rail.Update(playField.rails[2], dt/2, playField.timer)
+    Rail.Update(playField.rails[3], dt/2, playField.timer)
+    if (ScoreManager.CheckSongEnd(playField.scoreManager) == true) then
+      endTimer = endTimer + dt
+      if (endTimer >= 5) then
+        gameState = "SongMenu"
+        songMenu = SongMenu.Init()
+        playField.songAudio:pause()
+      end
     end
-  end
-  
-  if (pause == true) then
-    playField.songAudio:pause()
-    if (love.keyboard.isDown('7')) then
-      pause = false
-      playField.songAudio:play()
-    end
-  end
-  
-  if(love.keyboard.isDown('escape')) then
-    gameState = "SongMenu"
-    songMenu = SongMenu.Init()
-    playField.songAudio:pause()
-  end
+  end 
 end
-
 function PlayField.Draw()
   love.graphics.draw(background,0, 0)
   love.graphics.draw(UI,0, 0)
   love.graphics.draw(hitBarrier,0, 0)
   love.graphics.setColor(0, 255, 0, 255)
-  love.graphics.print(playField.timer, 600, 10)
-  love.graphics.print(playField.scoreManager.score, 900, 10)
-  love.graphics.print(playField.scoreManager.combo, 900, 50)
+  love.graphics.print(playField.timer, 1000, 10)
+  love.graphics.print(playField.scoreManager.score, 1600, 10)
+  love.graphics.print(playField.scoreManager.combo, 1600, 50)
+  love.graphics.print(playField.scoreManager.notesMissed, 1600, 100)
     if (perfect == true) then
         love.graphics.print("PERFECT", 800, 300,0,4,4)
-
         print("Perfect")
   elseif (hit == true) then
         love.graphics.print("HIT", 800, 300,0,4,4)
@@ -120,50 +111,64 @@ function PlayField.Draw()
   elseif (miss == true) then
         love.graphics.print("MISS", 800, 300,0,4,4)
         print("Miss")
-  --elseif (safe == true) then
-    --love.graphics.print("SAFE", 800, 300, 0, 4,4)
-    --print("safe")
   end
   love.graphics.setColor(255,255,255,255)
   Rail.DrawNote(playField.rails[0], 144)
   Rail.DrawNote(playField.rails[1], 336)
   Rail.DrawNote(playField.rails[2], 528)
   Rail.DrawNote(playField.rails[3], 720)
-  if (hitTimer1 < 1) then
+  if (hitTimer1 < 0.2) then
     love.graphics.draw(hitConfirm, 96, 700, 0, 0.75, 0.75)  
   end
-  if (hitTimer2 < 1) then
+  if (hitTimer2 < 0.2) then
     love.graphics.draw(hitConfirm, 288, 700, 0, 0.75, 0.75)  
   end
-  if (hitTimer3 < 1) then
+  if (hitTimer3 < 0.2) then
     love.graphics.draw(hitConfirm, 480, 700, 0, 0.75, 0.75)  
   end
-  if (hitTimer4 < 1) then
+  if (hitTimer4 < 0.2) then
     love.graphics.draw(hitConfirm, 672, 700, 0, 0.75, 0.75)  
   end
   perfect = false;
   hit = false;
   miss = false;
   close = false;
- -- safe = false;
+   if (songStart == false) then
+    love.graphics.print(playField.song.songName,200, 500, 0,2)
+    love.graphics.draw(songArt,250,600)
+  end
 end
 
 function love.keypressed(key, scancode, isrepeat)
-  if (key == "d") then
+  if (key == "d" and pause == false) then
     accuracy = Rail.InteractWithNote(playField.rails[0], playField.timer, 144)
     PlayField.Accuracy(accuracy, 1)
   end
-  if (key == "f") then
+  if (key == "f" and pause == false) then
     accuracy = Rail.InteractWithNote(playField.rails[1], playField.timer, 336)
     PlayField.Accuracy(accuracy, 2)
   end
-  if (key == "k") then
+  if (key == "k" and pause == false) then
     accuracy = Rail.InteractWithNote(playField.rails[2], playField.timer, 528)
     PlayField.Accuracy(accuracy, 3)
   end
-  if (key == "l") then
+  if (key == "l" and pause == false) then
     accuracy = Rail.InteractWithNote(playField.rails[3], playField.timer, 720)
     PlayField.Accuracy(accuracy, 4) 
+  end
+  if (key == "escape") then
+    gameState = "SongMenu"
+    songMenu = SongMenu.Init()
+    playField.songAudio:pause()
+  end
+  if (key == "p") then
+    if (pause == false) then
+      pause = true
+      playField.songAudio:pause()
+    else
+      pause = false
+      playField.songAudio:play()
+    end  
   end
 end
 

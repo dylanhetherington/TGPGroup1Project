@@ -51,15 +51,11 @@ function ScoreManager.IncrementNotesMissed(self)
 end
 
 function ScoreManager.CheckSongEnd(self)
-  if self.notesHit + self.notesMissed >= self.totalNotes then
+  if (self.notesHit + self.notesMissed >= self.totalNotes) then
     return true
   else
     return false
   end
-end
-
-function ScoreManager.CheckGameOver()
-  
 end
 
 function ScoreManager.DecrementHealth(self)

@@ -96,6 +96,7 @@ function SongMenu.Update(dt)
   
   if(not playingPreview and timer > maxTimer) then
     preview = love.audio.newSource('Songs/'..songMenu.songDisplay[4].audioPreview)
+    preview:setLooping(true)
     preview:play()
     playingPreview = true
     timer = 0
