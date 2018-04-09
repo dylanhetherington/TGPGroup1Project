@@ -23,6 +23,7 @@ end
   
 function ScoreManager.IncrementNotesHit(self)
   self.notesHit = self.notesHit + 1
+  self.score = self.score + 1
 end
 
 function ScoreManager.GetNotesHit(self)

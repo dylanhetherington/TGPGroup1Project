@@ -11,8 +11,12 @@ local hitConfirm =  love.graphics.newImage('Assets/HitConfirm1080.png')
 
 local songStart = false
 local pause = false
-local hitRail = nil
-local hitTimer = 0
+
+local hitTimer1 = 2
+local hitTimer2 = 2
+local hitTimer3 = 2
+local hitTimer4 = 2
+
 PlayField = { timer,
               rails,
               scoreManager,
@@ -64,10 +68,12 @@ function PlayField.Update(dt)
     if (songStart == false and playField.timer >= 1.3) then
       playField.songAudio:play()
       songStart = true
-      --playField.timer = 0
     end
     playField.timer = playField.timer + dt / 2
-    hitTimer = hitTimer + dt
+    hitTimer1 = hitTimer1 + dt
+    hitTimer2 = hitTimer2 + dt
+    hitTimer3 = hitTimer3 + dt
+    hitTimer4 = hitTimer4 + dt
       Rail.Update(playField.rails[0], dt/2, playField.timer)
       Rail.Update(playField.rails[1], dt/2, playField.timer)
       Rail.Update(playField.rails[2], dt/2, playField.timer)
@@ -92,7 +98,7 @@ function PlayField.Draw()
   love.graphics.setColor(0, 255, 0, 255)
   love.graphics.print(playField.timer, 600, 10)
   love.graphics.print(playField.scoreManager.score, 900, 10)
-  --love.graphics.draw(hitConfirm, 144 - 48, 700, 0, 0.75, 0.75)  
+  love.graphics.print(playField.scoreManager.combo, 900, 50)
     if (perfect == true) then
         love.graphics.print("PERFECT", 800, 300,0,4,4)
 
@@ -115,9 +121,17 @@ function PlayField.Draw()
   Rail.DrawNote(playField.rails[1], 336)
   Rail.DrawNote(playField.rails[2], 528)
   Rail.DrawNote(playField.rails[3], 720)
-  if (hitRail ~= nil and hitTimer < 1) then
-    drawNumber = hitRail
-    love.graphics.draw(hitConfirm, drawNumber * 144, 700, 0, 0.75, 0.75)  
+  if (hitTimer1 < 1) then
+    love.graphics.draw(hitConfirm, 96, 700, 0, 0.75, 0.75)  
+  end
+  if (hitTimer2 < 1) then
+    love.graphics.draw(hitConfirm, 288, 700, 0, 0.75, 0.75)  
+  end
+  if (hitTimer3 < 1) then
+    love.graphics.draw(hitConfirm, 480, 700, 0, 0.75, 0.75)  
+  end
+  if (hitTimer4 < 1) then
+    love.graphics.draw(hitConfirm, 672, 700, 0, 0.75, 0.75)  
   end
   perfect = false;
   hit = false;
@@ -146,23 +160,36 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function PlayField.Accuracy(value, railNumber)
+  local spawnHit = false
   if (value < -300 and value >= -800 or value > 10 and value < 100) then
     miss = true 
+    ScoreManager.ResetCombo(playField.scoreManager)
   elseif (value < -200 and value >= -300 )then
     close = true
-    hitTimer = 0
-    hitRail = railNumber
+    spawnHit = true
+    ScoreManager.IncrementCombo(playField.scoreManager)
+    ScoreManager.IncrementNotesHit(playField.scoreManager)
   elseif (value < -100 and value >= -200 ) then
     hit = true
-    hitTimer = 0
-    hitRail = railnumber
+    spawnHit = true
+    ScoreManager.IncrementCombo(playField.scoreManager)
+    ScoreManager.IncrementNotesHit(playField.scoreManager)
   elseif (value < 10 and value >= -100) then
     perfect = true 
-    hitTimer = 0
-    hitRail = railNumber
- -- else
-    --nothing happens note was not active.
-    --safe = true
+    spawnHit = true
+    ScoreManager.IncrementCombo(playField.scoreManager)
+    ScoreManager.IncrementNotesHit(playField.scoreManager)
+  end
+  if (spawnHit == true) then
+    if (railNumber == 1) then
+      hitTimer1 = 0
+    elseif (railNumber == 2) then
+      hitTimer2 = 0 
+    elseif (railNumber == 3) then
+      hitTimer3 = 0      
+    else 
+      hitTimer4 = 0  
+    end
   end
   ScoreManager.Accuracy(playField.scoreManager, accuracy)
 end
