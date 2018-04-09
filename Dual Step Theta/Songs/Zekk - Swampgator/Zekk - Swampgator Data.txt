@@ -1,7 +1,7 @@
 Swampgator
 Zekk
-Zekk - Swampgator/audio.mp3
-Zekk - Swampgator/audioShort.mp3
+Zekk - Swampgator/audio.wav
+Zekk - Swampgator/audioShort.wav
 Zekk - Swampgator/BG.png
 0
 [Difficulty 0]

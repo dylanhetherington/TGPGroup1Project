@@ -33,6 +33,7 @@ safe = false
 function PlayField.New(song)
   playField = setmetatable({}, PlayField)
   playField.timer = 0.0
+  songStart = false
   playField.rails = {}
   --playField.user = User.New()
   playField.song = song
@@ -59,7 +60,7 @@ function PlayField.CreateRails(self)
 end
 
 function PlayField.LoadSongAudio(filepath)
-  audio = love.audio.newSource("Songs/"..filepath, "static")
+  audio = love.audio.newSource("Songs/"..filepath, "static") 
   return audio
 end
 
@@ -82,12 +83,19 @@ function PlayField.Update(dt)
         pause = true
     end
   end
+  
   if (pause == true) then
     playField.songAudio:pause()
     if (love.keyboard.isDown('7')) then
       pause = false
       playField.songAudio:play()
     end
+  end
+  
+  if(love.keyboard.isDown('escape')) then
+    gameState = "SongMenu"
+    songMenu = SongMenu.Init()
+    playField.songAudio:pause()
   end
 end
 

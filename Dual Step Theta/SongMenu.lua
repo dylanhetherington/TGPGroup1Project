@@ -14,12 +14,15 @@ function SongMenu.Init()
   baseSong = {}
   FileLoad()
   songArt = {}
+  displaySize = 8
+  timer = 1
+  playingPreview = false
   canJump = true
   songSelect = love.graphics.newImage('Assets/wipsongselect.png')
-  for i = 1,7 do
+  for i = 1,displaySize do
     baseSong[i] = i
   end
-  for i = 1,7 do
+  for i = 1,displaySize do
     songMenu.songDisplay[i] = songMenu.songList[baseSong[i]]
   end
   
@@ -35,7 +38,7 @@ end
 
 function SongMenu.Draw()
   love.graphics.draw(songSelect,1075,375)
-  for i = 1,7 do
+  for i = 1,displaySize do
     love.graphics.draw(songArt[i],1100,150*i-200)
   end
   if TableCount(songMenu.songDisplay) > 0 then
@@ -49,31 +52,40 @@ function SongMenu.Draw()
 end
 
 function SongMenu.Update(dt)
-  for i = 1,7 do
+  timer = timer + dt
+  maxTimer = 0.5
+  
+  for i = 1,displaySize do
     songMenu.songDisplay[i] = songMenu.songList[baseSong[i]]
   end
   
-  for i = 1, 7 do
+  for i = 1, displaySize do
     songArt[i] = love.graphics.newImage('Songs/'..songMenu.songDisplay[i].artFile)
   end
   
   if (canJump and love.keyboard.isDown('down')) then
     canJump = false
-    for i = 1,7 do
+    for i = 1,displaySize do
       baseSong[i] = baseSong[i] + 1
     end
+    preview:pause()
+    playingPreview = false
+    timer = 0
   elseif (canJump and love.keyboard.isDown('up')) then
     canJump = false
-        for i = 1,7 do
+        for i = 1,displaySize do
       baseSong[i] = baseSong[i] - 1
     end
+    preview:pause()
+    playingPreview = false
+    timer = 0
   end
   
   if (not love.keyboard.isDown('down') and not love.keyboard.isDown('up')) then
     canJump = true
   end
   
-  for i = 1,7 do
+  for i = 1,displaySize do
     if (baseSong[i] > TableCount(songMenu.songList)) then
       baseSong[i] = 1
     end
@@ -82,14 +94,23 @@ function SongMenu.Update(dt)
     end
   end
   
-  if (love.keyboard.isDown('9')) then --remove this is only here to allow for debugging and getting to the playfield
+  if(not playingPreview and timer > maxTimer) then
+    preview = love.audio.newSource('Songs/'..songMenu.songDisplay[4].audioPreview)
+    preview:play()
+    playingPreview = true
+    timer = 0
+  end
+  
+  if (love.keyboard.isDown('return')) then
     SongMenu.SelectSong()
   end
+  
 end
 
 function SongMenu.SelectSong()
   --create a playfield, send in song that is in position = to selectedPosition
   gameState = "Play"
+  preview:pause()
   LoadPlayField(songMenu.songDisplay[4])
 end
 
@@ -119,16 +140,22 @@ end
 
 function love.wheelmoved(x,y)
   if(y<0)then
-    for i = 1,7 do
+    for i = 1,displaySize do
       baseSong[i] = baseSong[i] + 1
     end
+    preview:pause()
+    playingPreview = false
+    timer = 0
   elseif(y>0)then
-    for i = 1,7 do
+    for i = 1,displaySize do
       baseSong[i] = baseSong[i] - 1
     end
+    preview:pause()
+    playingPreview = false
+    timer = 0
   end
   
-  for i = 1,7 do
+  for i = 1,displaySize do
     if (baseSong[i] > TableCount(songMenu.songList)) then
       baseSong[i] = 1
     end
