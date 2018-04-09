@@ -2,7 +2,8 @@ Re:End of a Dream
 uma vs. Morimori Atsushi
 uma vs Morimori Atsushi - ReEnd of a Dream/audio.mp3
 uma vs Morimori Atsushi - ReEnd of a Dream/audioshort.mp3
-uma.png 
+uma vs Morimori Atsushi - ReEnd of a Dream/uma.png 
+0
 [Difficulty 0]
 Easy
 3
@@ -12,12 +13,12 @@ uma vs Morimori Atsushi - ReEnd of a Dream/umaeasy.txt
 [Difficulty 1]
 Hard 				
 7 				
-TestSongMidChart.txt
+uma vs Morimori Atsushi - ReEnd of a Dream/TestSongMidChart.txt
 90000 
 60000 
 [Difficulty 2]
 Expert 
 14 
-TestSongHardChart.txt
+uma vs Morimori Atsushi - ReEnd of a Dream/TestSongHardChart.txt
 974890 
 560224 

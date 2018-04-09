@@ -24,19 +24,13 @@ function SongMenu.Init()
   end
   
   for i = 1, TableCount(songMenu.songDisplay) do
-    songArt[i] = love.graphics.newImage('Assets/'..songMenu.songDisplay[i].artFile)
+    songArt[i] = love.graphics.newImage('Songs/'..songMenu.songDisplay[i].artFile)
   end
   
   font = love.graphics.newFont(38)
   love.graphics.setFont(font)
   
   return songMenu
-end
-
-function SongMenu.SongSearch()
-  --check player keyboard input against songMenu.songList.songName
-  --triggerd when player hits enter
-  --this is extra
 end
 
 function SongMenu.Draw()
@@ -50,31 +44,17 @@ function SongMenu.Draw()
     love.graphics.print('Rating: '..songMenu.songDisplay[4].rating,150,450)
     love.graphics.print('Best Score: '..songMenu.songDisplay[4].bestScore,150,550)
     love.graphics.print('Previous Score: '..songMenu.songDisplay[4].previousScore,150,650)
-  end
-  
+  end 
   love.graphics.print('Current Combo: '..'like 5',75,75)
-  
-  --Draw graphics of the 7 songs stored in the songDisplay array
-  --draw box with song graphic (songMenu.songDisplay[number].artFile)
-  --give each song border
-  --make selected Song (song 3 in the 7 song display array) slightly bigger
-  --draw name and other varaibles for the song that are relevant
 end
 
 function SongMenu.Update(dt)
-
-        --print(songMenu.songList[1].songName.."\n"..songMenu.songList[1].artist.."\n"..songMenu.songList[1].audioFile.."\n"..songMenu.songList[1].audioPreview.."\n"..songMenu.songList[1].artFile.."\n"..songMenu.songList[1].difficulty.."\n"..songMenu.songList[1].rating.."\n"..songMenu.songList[1].noteChart.."\n"..songMenu.songList[1].bestScore.."\n"..songMenu.songList[1].previousScore) --lines for debugging, remove these
-  --use self. when wanting to access class varaibles
-  --check player input to scroll through the list (update selected position)
-  --songs scroll in sets of 3 cause 3 slots used for difficulty settings
-  --callScrollThroughMenu
-  --play shortAudio for selectedSong
   for i = 1,7 do
     songMenu.songDisplay[i] = songMenu.songList[baseSong[i]]
   end
   
   for i = 1, 7 do
-    songArt[i] = love.graphics.newImage('Assets/'..songMenu.songDisplay[i].artFile)
+    songArt[i] = love.graphics.newImage('Songs/'..songMenu.songDisplay[i].artFile)
   end
   
   if (canJump and love.keyboard.isDown('down')) then

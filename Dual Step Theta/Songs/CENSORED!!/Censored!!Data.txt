@@ -1,0 +1,24 @@
+CENSORED!!
+t+pazolite
+CENSORED!!/censored.mp3
+CENSORED!!/censoredShort.mp3
+CENSORED!!/BG.png
+0
+[Difficulty 0]
+Easy
+3
+CENSORED!!/Censored!!Easy.txt
+000000
+000000
+[Difficulty 1]
+Medium
+5
+CENSORED!!/Censored!!Medium.txt
+000000
+000000
+[Difficulty 2]
+Hard
+7
+CENSORED!!/Censored!!Hard.txt
+000000
+000000

@@ -1,0 +1,24 @@
+Swampgator
+Zekk
+Zekk - Swampgator/audio.mp3
+Zekk - Swampgator/audioShort.mp3
+Zekk - Swampgator/BG.png
+0
+[Difficulty 0]
+Easy
+3
+Zekk - Swampgator/Zekk - Swampgator Easy.txt
+000000
+000000
+[Difficulty 1]
+Medium
+3
+Zekk - Swampgator/Zekk - Swampgator Medium.txt
+000000
+000000
+[Difficulty 2]
+Hard
+3
+Zekk - Swampgator/Zekk - Swampgator Hard.txt
+000000
+000000

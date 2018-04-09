@@ -4,6 +4,7 @@ Song = {songName,
         artist,
         difficulty,
         rating,
+        delay,
         noteChart,
         bestScore,
         previousScore,
@@ -19,6 +20,7 @@ function Song.New()
   song.artist = ""
   song.difficulty = ""
   song.rating = 0
+  song.delay = 0
   song.noteChart = ""
   song.bestScore = 0
   song.previousScore = 0
@@ -36,26 +38,27 @@ function Song.StoreData(self, checkDifficulty)
   self.audioFile = songDataStore[3]
   self.audioPreview = songDataStore[4]
   self.artFile = songDataStore[5]
+  self.delay = songDataStore[6]
   if (checkDifficulty == 0) then
-    self.difficulty = songDataStore[7]
-    self.rating = songDataStore[8]
-    self.noteChart = songDataStore[9]
-    self.bestScore = songDataStore[10]
-    self.previousScore = songDataStore[11]
+    self.difficulty = songDataStore[8]
+    self.rating = songDataStore[9]
+    self.noteChart = songDataStore[10]
+    self.bestScore = songDataStore[11]
+    self.previousScore = songDataStore[12]
   end
   if (checkDifficulty == 1) then
-    self.difficulty = songDataStore[13]
-    self.rating = songDataStore[14]
-    self.noteChart = songDataStore[15]
-    self.bestScore = songDataStore[16]
-    self.previousScore = songDataStore[17]
+    self.difficulty = songDataStore[14]
+    self.rating = songDataStore[15]
+    self.noteChart = songDataStore[16]
+    self.bestScore = songDataStore[17]
+    self.previousScore = songDataStore[18]
   end
   if (checkDifficulty == 2) then
-    self.difficulty = songDataStore[19]
-    self.rating = songDataStore[20]
-    self.noteChart = songDataStore[21]
-    self.bestScore = songDataStore[22]
-    self.previousScore = songDataStore[23]
+    self.difficulty = songDataStore[20]
+    self.rating = songDataStore[21]
+    self.noteChart = songDataStore[22]
+    self.bestScore = songDataStore[23]
+    self.previousScore = songDataStore[24]
   end
 end
 
@@ -66,7 +69,7 @@ function Song.LoadNotes(self)
   end
   for i = 0, TableCount(noteDataStore) -1, 1 do
     note = Note.New()
-    Note.StoreData(note,i)
+    Note.StoreData(note,i, self)
     self.notes[i] = note
     self.totalNotes = self.totalNotes + 1
   end

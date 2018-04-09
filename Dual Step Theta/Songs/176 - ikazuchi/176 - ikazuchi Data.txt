@@ -1,0 +1,24 @@
+176 - ikazuchi
+Steins
+176 - ikazuchi/176 - ikazuchi.mp3
+176 - ikazuchi/176 - ikazuchiShort.mp3
+176 - ikazuchi/BG.png
+0
+[Difficulty 0]
+Easy
+3
+176 - ikazuchi/176 - ikazuchi Easy.txt
+000000
+000000
+[Difficulty 1]
+Medium
+5
+176 - ikazuchi/176 - ikazuchi Medium.txt
+000000
+000000
+[Difficulty 2]
+Hard
+7
+176 - ikazuchi/176 - ikazuchi Hard.txt
+000000
+000000
