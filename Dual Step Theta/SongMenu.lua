@@ -14,7 +14,7 @@ function SongMenu.Init()
   baseSong = {}
   FileLoad()
   songArt = {}
-  displaySize = 8
+  displaySize = 7
   timer = 1
   playingPreview = false
   canJump = true
@@ -37,9 +37,9 @@ function SongMenu.Init()
 end
 
 function SongMenu.Draw()
-  love.graphics.draw(songSelect,1075,375)
+  love.graphics.draw(songSelect,1075,460)
   for i = 1,displaySize do
-    love.graphics.draw(songArt[i],1100,150*i-200)
+    love.graphics.draw(songArt[i],1100,150*i-115)
   end
   if TableCount(songMenu.songDisplay) > 0 then
     love.graphics.print('Name: '..songMenu.songDisplay[4].songName,150,250)
