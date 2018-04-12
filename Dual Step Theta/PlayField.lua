@@ -117,18 +117,7 @@ function PlayField.Draw()
   Rail.DrawNote(playField.rails[1], 336)
   Rail.DrawNote(playField.rails[2], 528)
   Rail.DrawNote(playField.rails[3], 720)
-  if (hitTimer1 < 0.2) then
-    love.graphics.draw(hitConfirm, 96, 700, 0, 0.75, 0.75)  
-  end
-  if (hitTimer2 < 0.2) then
-    love.graphics.draw(hitConfirm, 288, 700, 0, 0.75, 0.75)  
-  end
-  if (hitTimer3 < 0.2) then
-    love.graphics.draw(hitConfirm, 480, 700, 0, 0.75, 0.75)  
-  end
-  if (hitTimer4 < 0.2) then
-    love.graphics.draw(hitConfirm, 672, 700, 0, 0.75, 0.75)  
-  end
+
   perfect = false;
   hit = false;
   miss = false;
@@ -156,7 +145,7 @@ function love.keypressed(key, scancode, isrepeat)
     accuracy = Rail.InteractWithNote(playField.rails[3], playField.timer, 720)
     PlayField.Accuracy(accuracy, 4) 
   end
-  if (key == "escape") then
+  if (key == "backspace") then
     gameState = "SongMenu"
     songMenu = SongMenu.Init()
     playField.songAudio:pause()

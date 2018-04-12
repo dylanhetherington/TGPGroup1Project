@@ -101,11 +101,12 @@ function SongMenu.Update(dt)
     playingPreview = true
     timer = 0
   end
-  
   if (love.keyboard.isDown('return')) then
     SongMenu.SelectSong()
   end
-  
+  if (love.keyboard.isDown('escape')) then
+    love.event.quit()
+  end
 end
 
 function SongMenu.SelectSong()
