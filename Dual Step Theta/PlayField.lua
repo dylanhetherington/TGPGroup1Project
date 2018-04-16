@@ -2,11 +2,11 @@ require 'Song'
 require 'Rail'
 require 'ScoreManager'
 require 'Note'
-require 'Player'
+--require 'Player'
 
---local screen = require "shack"
---screen:setDimensions(1920,1080)
---local graphics
+local screen = require "shack"
+screen:setDimensions(1920,1080)
+local graphics
 local background = love.graphics.newImage('Assets/voidBackground1080.png')
 local UI = love.graphics.newImage('Assets/PlayFieldUI1080.png')
 local hitBarrier = love.graphics.newImage('Assets/NoteHitBarrier1080.png')
@@ -60,7 +60,6 @@ function PlayField.New(song, playerInfo)
   songStart = false
   playField.rails = {}
   playField.player = playerInfo
-  --playField.user = User.New()
   playField.song = song
   playField.scoreManager = ScoreManager.New(song.totalNotes, self)
   PlayField.CreateRails(playField)
@@ -105,7 +104,7 @@ function PlayField.LoadSongAudio(filepath)
 end
 
 function PlayField.Update(dt)
-  --screen:update(dt)
+  screen:update(dt)
     if (pause == false) then
       if (songStart == false and playField.timer >= 1.3) then
         playField.songAudio:play()
@@ -164,7 +163,7 @@ function PlayField.Update(dt)
   end
 end
 function PlayField.Draw()
-  --screen:apply()
+  screen:apply()
   love.graphics.draw(background,0, 0)
   love.graphics.draw(UI,0, 0)
   if (hitTimer1 < 0.2) then 
@@ -270,7 +269,7 @@ function PlayField.Accuracy(value, railNumber)
   end
   if (value < -300 and value >= -800 or value > 10 and value < 100) then
    --if (railNumber == 0) then
-    --screen:setShake(20)
+    screen:setShake(20)
      miss = true 
     --end
     Player.AdjustHealth(playField.player, -5)

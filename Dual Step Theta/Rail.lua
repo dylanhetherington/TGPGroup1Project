@@ -31,7 +31,7 @@ function Rail.CheckNextNote(self, timer)
     if (self.notes[self.nextNoteIndex].startTime ~= nil ) then
       --print("startTime not nill")
       if (self.notes[self.nextNoteIndex].startTime <= timer ) then
-        print("note start   "..timer)
+        --print("note start   "..timer)
         self.notes[self.nextNoteIndex].active = true
         self.nextNoteIndex = self.nextNoteIndex + 1
         return true
@@ -49,7 +49,7 @@ function Rail.Update(self, dt, timer)
     if (note.active == true) then
         note.yPosition = note.yPosition + dt * 1000
         if (note.yPosition >= 920) then
-          print("note end   "..timer * 1000)
+          --print("note end   "..timer * 1000)
           note.active = false
           self.noteInPlay = self.noteInPlay + 1
           ScoreManager.IncrementNotesMissed(playField.scoreManager)

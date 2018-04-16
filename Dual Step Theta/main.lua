@@ -31,13 +31,13 @@ function love.draw()
   elseif(gameState == "Play") then
     love.graphics.setBackgroundColor(0,0,0)
     PlayField.Draw()
-    --Player.Draw(player)
+    Player.Draw(player)
   end
 end 
 
 function LoadPlayField(activeSong)
   Song.LoadNotes(activeSong)
-  playField = PlayField.New(activeSong,player)
+  playField = PlayField.New(activeSong, player)
 end
 
 function TableCount(table)
