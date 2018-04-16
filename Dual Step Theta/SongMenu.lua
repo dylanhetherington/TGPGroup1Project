@@ -1,16 +1,19 @@
 require 'Song'
+--require 'Player'
 
 SongMenu = {songList,
             songDisplay,
-            selectedPosition
+            selectedPosition,
+            player,
           }
 local background = love.graphics.newImage('Assets/Song Select Screen.png')
-function SongMenu.Init()
+function SongMenu.Init(player)
   songDirectory = {}
   songMenu = setmetatable({}, SongMenu) 
   songMenu.songList = {}
   songMenu.songDisplay = {} --list of 7 songs to be drawn
   songMenu.selectedPosition = 0
+  songMenu.player = player
   baseSong = {}
   FileLoad()
   songArt = {}
@@ -48,7 +51,7 @@ function SongMenu.Draw()
     love.graphics.print('Best Score: '..songMenu.songDisplay[4].bestScore,150,550)
     love.graphics.print('Previous Score: '..songMenu.songDisplay[4].previousScore,150,650)
   end 
-  love.graphics.print('Current Combo: '..'like 5',75,75)
+  love.graphics.print('Combo: '..songMenu.player.combo,75,75)
 end
 
 function SongMenu.Update(dt)
@@ -100,9 +103,6 @@ function SongMenu.Update(dt)
     preview:play()
     playingPreview = true
     timer = 0
-  end
-  if (love.keyboard.isDown('return')) then
-    SongMenu.SelectSong()
   end
   if (love.keyboard.isDown('escape')) then
     love.event.quit()

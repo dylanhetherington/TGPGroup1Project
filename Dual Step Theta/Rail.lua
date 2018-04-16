@@ -12,7 +12,7 @@ function Rail.New(railNumber)
   rail = setmetatable({}, Rail)
   rail.notes = {}
   rail.nextNoteIndex = 0
-  rail.totalNotes = 0
+  rail.totalNotes = 0                
   rail.noteInPlay = 0
   rail.singleNoteGraphic = love.graphics.newImage('Assets/NoteGem1080.png')
   rail.railNumber = railNumber

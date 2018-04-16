@@ -37,6 +37,7 @@ end
 
 function LoadPlayField(activeSong)
   Song.LoadNotes(activeSong)
+  Player.ResetHealth(player)
   playField = PlayField.New(activeSong, player)
 end
 

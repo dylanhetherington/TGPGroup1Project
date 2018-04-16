@@ -1,13 +1,15 @@
 Player = { combo,
           health,
-          modifier, 
+          modifier,
+          damage,
           }
 local healthBar = love.graphics.newImage('Assets/health bar.png')
 function Player.New()
   player = setmetatable({}, Player)
   player.health = 100
   player.combo = 0
-  player.modifier = 0
+  player.modifier = 1
+  player.damage = 0
   return player
 end
 
@@ -27,19 +29,32 @@ function Player.ResetHealth(self)
   self.health = 100
 end
 
-function Player.AdjustModifier(self, adjustment)
-  self.modifier = self.modifier + adjustment
+function Player.SetModifier(self, adjustment)
+  self.modifier = adjustment
 end
 
 function Player.ResetModifier(self)
-  self.modifier = 0
+  self.modifier = 1
+end
+
+function Player.SetDamage(self, adjustment)
+  self.damage = adjustment
+end
+
+function Player.AdjustDamage(self, adjustment)
+  self.damage = self.damage + adjustment
 end
 
 function Player.Draw(self)
+  love.graphics.print("x"..self.modifier, 440, 260)
+  if (self.combo ~= 0 ) then
+    love.graphics.print(self.combo, 460, 340)
+  end
   if (self.health > 0) then
     love.graphics.setColor(255,0,0,255)
     love.graphics.rectangle("fill",10,926,40,-self.health * 7) --height changes based on player health
     love.graphics.setColor(255,255,255,255)
   end
   love.graphics.draw(healthBar, 10, 200)
+  --love.graphics.print("DAMAGE: "..self.damage, 460, 400)
 end
