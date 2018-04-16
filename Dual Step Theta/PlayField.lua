@@ -2,9 +2,10 @@ require 'Song'
 require 'Rail'
 require 'ScoreManager'
 require 'Note'
+require 'Player'
 
-local screen = require "shack"
-screen:setDimensions(1920,1080)
+--local screen = require "shack"
+--screen:setDimensions(1920,1080)
 --local graphics
 local background = love.graphics.newImage('Assets/voidBackground1080.png')
 local UI = love.graphics.newImage('Assets/PlayFieldUI1080.png')
@@ -38,7 +39,9 @@ PlayField = { timer,
               scoreManager,
               user,
               song,
-              songAudio,}
+              songAudio,
+              player,
+              }
 
 miss = false
 hit = false
@@ -51,11 +54,12 @@ rail1Hit = false
 rail2Hit = false
 rail3Hit = false
 
-function PlayField.New(song)
+function PlayField.New(song, playerInfo)
   playField = setmetatable({}, PlayField)
   playField.timer = 0.0
   songStart = false
   playField.rails = {}
+  playField.player = playerInfo
   --playField.user = User.New()
   playField.song = song
   playField.scoreManager = ScoreManager.New(song.totalNotes, self)
@@ -64,6 +68,7 @@ function PlayField.New(song)
   songArt = love.graphics.newImage('Songs/'..playField.song.artFile)
   endTimer = 0
   PlayField.SetUpAnimation()
+  Player.ResetHealth(playField.player)
   return playField
 end
 
@@ -100,7 +105,7 @@ function PlayField.LoadSongAudio(filepath)
 end
 
 function PlayField.Update(dt)
-  screen:update(dt)
+  --screen:update(dt)
     if (pause == false) then
       if (songStart == false and playField.timer >= 1.3) then
         playField.songAudio:play()
@@ -116,10 +121,10 @@ function PlayField.Update(dt)
       frameTimer1 = frameTimer1 + dt
       frameTimer2 = frameTimer2 + dt
       frameTimer3 = frameTimer3 + dt
-      Rail.Update(playField.rails[0], dt/2, playField.timer)
-      Rail.Update(playField.rails[1], dt/2, playField.timer)
-      Rail.Update(playField.rails[2], dt/2, playField.timer)
-      Rail.Update(playField.rails[3], dt/2, playField.timer)
+      Rail.Update(playField.rails[0], dt, playField.timer)
+      Rail.Update(playField.rails[1], dt, playField.timer)
+      Rail.Update(playField.rails[2], dt, playField.timer)
+      Rail.Update(playField.rails[3], dt, playField.timer)
       if (ScoreManager.CheckSongEnd(playField.scoreManager) == true) then
         endTimer = endTimer + dt
         if (endTimer >= 5) then
@@ -159,44 +164,46 @@ function PlayField.Update(dt)
   end
 end
 function PlayField.Draw()
-  screen:apply()
+  --screen:apply()
   love.graphics.draw(background,0, 0)
   love.graphics.draw(UI,0, 0)
-  love.graphics.draw(hitBarrier,0, 0)
   if (hitTimer1 < 0.2) then 
-    love.graphics.draw(hitConfirm, 96, 700, 0, 0.75, 0.75)   
+    love.graphics.draw(hitConfirm, 96, 350, 0, 0.75, 0.75)   
   end 
   if (hitTimer2 < 0.2) then 
-    love.graphics.draw(hitConfirm, 288, 700, 0, 0.75, 0.75)   
+    love.graphics.draw(hitConfirm, 288, 350, 0, 0.75, 0.75)   
   end 
   if (hitTimer3 < 0.2) then 
-    love.graphics.draw(hitConfirm, 480, 700, 0, 0.75, 0.75)   
+    love.graphics.draw(hitConfirm, 480, 350, 0, 0.75, 0.75)   
   end 
   if (hitTimer4 < 0.2) then 
-    love.graphics.draw(hitConfirm, 672, 700, 0, 0.75, 0.75)
+    love.graphics.draw(hitConfirm, 672, 350, 0, 0.75, 0.75)
   end
+  love.graphics.draw(hitBarrier,0, 0)
   love.graphics.setColor(0, 255, 0, 255)
   --love.graphics.print(playField.timer, 1000, 10)
   --love.graphics.print("FPS: "..tostring(love.timer.getFPS()),10,10)
   love.graphics.print("Score: "..playField.scoreManager.score, 1600, 0)
-  love.graphics.print("Combo: "..playField.scoreManager.combo, 1600, 40)
+  if (playField.player.combo ~= 0 ) then
+    love.graphics.print(playField.player.combo, 460, 340)
+  end
   love.graphics.print("Miss: "..playField.scoreManager.notesMissed, 1600, 80)
+  love.graphics.setColor(255,255,255,255)
   if (messageTimer <= 0.2) then
       if (perfect == true) then
-          love.graphics.draw(perfectMessage, 1000, 300)
+          love.graphics.draw(perfectMessage, 360, 300)
     elseif (hit == true) then
-          love.graphics.draw(hitMessage, 1000, 300)
+          love.graphics.draw(hitMessage, 405, 300)
     elseif (close == true) then
-          love.graphics.draw(closeMessage, 1000, 300)
+          love.graphics.draw(closeMessage, 430, 300)
     elseif (miss == true) then
-          love.graphics.draw(missMessage, 1000, 300)
+          love.graphics.draw(missMessage, 420, 300)
     end
   end
-  love.graphics.setColor(255,255,255,255)
-  Rail.DrawNote(playField.rails[0], 144)
-  Rail.DrawNote(playField.rails[1], 336)
-  Rail.DrawNote(playField.rails[2], 528)
-  Rail.DrawNote(playField.rails[3], 720)
+  Rail.DrawNote(playField.rails[0], 96)
+  Rail.DrawNote(playField.rails[1], 288)
+  Rail.DrawNote(playField.rails[2], 480)
+  Rail.DrawNote(playField.rails[3], 672)
   if (rail0Hit == true) then
     love.graphics.draw(hitMarkers,hitMarkerAnimation[frameCounter0], 110, 840,0,0.5,0.5)
   end
@@ -263,30 +270,31 @@ function PlayField.Accuracy(value, railNumber)
   end
   if (value < -300 and value >= -800 or value > 10 and value < 100) then
    --if (railNumber == 0) then
-    screen:setShake(20)
+    --screen:setShake(20)
      miss = true 
     --end
-    ScoreManager.ResetCombo(playField.scoreManager)
+    Player.AdjustHealth(playField.player, -5)
+    Player.ResetCombo(playField.player)
   elseif (value < -200 and value >= -300 )then
     --if (railNumber == 0) then
     close = true
     --end
     spawnHit = true
-    ScoreManager.IncrementCombo(playField.scoreManager)
+    Player.AdjustCombo(playField.player, 1)
     ScoreManager.IncrementNotesHit(playField.scoreManager)
   elseif (value < -100 and value >= -200 ) then
     --if (railNumber == 0) then
     hit = true
     --end
     spawnHit = true
-    ScoreManager.IncrementCombo(playField.scoreManager)
+    Player.AdjustCombo(playField.player, 1)
     ScoreManager.IncrementNotesHit(playField.scoreManager)
   elseif (value < 10 and value >= -100) then
     --if (railNumber == 0) then
     perfect = true 
     --end
     spawnHit = true
-    ScoreManager.IncrementCombo(playField.scoreManager)
+    Player.AdjustCombo(playField.player, 1)
     ScoreManager.IncrementNotesHit(playField.scoreManager)
   end
   if (spawnHit == true) then

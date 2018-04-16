@@ -2,8 +2,10 @@ require 'Song'
 require 'PlayField'
 require 'StartMenu'
 require 'SongMenu'
-
+require 'Player'
 gameState = ""
+player = Player.New()
+
 function love.load()
   keyDown = false
   StartMenu.Init()
@@ -15,6 +17,7 @@ function love.update(dt)
   elseif (gameState == "SongMenu") then
     SongMenu.Update(dt)
   elseif (gameState == "Play") then
+    collectgarbage("stop")
     PlayField.Update(dt)
   end
 end
@@ -26,15 +29,15 @@ function love.draw()
     collectgarbage("collect")
     SongMenu.Draw()
   elseif(gameState == "Play") then
-    collectgarbage("stop")
     love.graphics.setBackgroundColor(0,0,0)
     PlayField.Draw()
+    --Player.Draw(player)
   end
 end 
 
 function LoadPlayField(activeSong)
   Song.LoadNotes(activeSong)
-  playField = PlayField.New(activeSong)
+  playField = PlayField.New(activeSong,player)
 end
 
 function TableCount(table)

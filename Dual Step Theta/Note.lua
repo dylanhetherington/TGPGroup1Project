@@ -11,7 +11,7 @@ function Note.New()
   note.startTime = 0
   note.noteType = 0
   note.endTime = 0
-  note.yPosition = 0
+  note.yPosition = -100
   note.active = false
   return note
 end
