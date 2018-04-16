@@ -3,6 +3,8 @@ require 'Rail'
 require 'ScoreManager'
 require 'Note'
 
+local screen = require "shack"
+screen:setDimensions(1920,1080)
 --local graphics
 local background = love.graphics.newImage('Assets/voidBackground1080.png')
 local UI = love.graphics.newImage('Assets/PlayFieldUI1080.png')
@@ -98,6 +100,7 @@ function PlayField.LoadSongAudio(filepath)
 end
 
 function PlayField.Update(dt)
+  screen:update(dt)
     if (pause == false) then
       if (songStart == false and playField.timer >= 1.3) then
         playField.songAudio:play()
@@ -156,6 +159,7 @@ function PlayField.Update(dt)
   end
 end
 function PlayField.Draw()
+  screen:apply()
   love.graphics.draw(background,0, 0)
   love.graphics.draw(UI,0, 0)
   love.graphics.draw(hitBarrier,0, 0)
@@ -172,11 +176,11 @@ function PlayField.Draw()
     love.graphics.draw(hitConfirm, 672, 700, 0, 0.75, 0.75)
   end
   love.graphics.setColor(0, 255, 0, 255)
-  love.graphics.print(playField.timer, 1000, 10)
-  love.graphics.print("FPS: "..tostring(love.timer.getFPS()),10,10)
-  love.graphics.print("Score: "..playField.scoreManager.score, 1600, 10)
-  love.graphics.print("Combo: "..playField.scoreManager.combo, 1600, 50)
-  love.graphics.print("Miss: "..playField.scoreManager.notesMissed, 1600, 100)
+  --love.graphics.print(playField.timer, 1000, 10)
+  --love.graphics.print("FPS: "..tostring(love.timer.getFPS()),10,10)
+  love.graphics.print("Score: "..playField.scoreManager.score, 1600, 0)
+  love.graphics.print("Combo: "..playField.scoreManager.combo, 1600, 40)
+  love.graphics.print("Miss: "..playField.scoreManager.notesMissed, 1600, 80)
   if (messageTimer <= 0.2) then
       if (perfect == true) then
           love.graphics.draw(perfectMessage, 1000, 300)
@@ -259,6 +263,7 @@ function PlayField.Accuracy(value, railNumber)
   end
   if (value < -300 and value >= -800 or value > 10 and value < 100) then
    --if (railNumber == 0) then
+    screen:setShake(20)
      miss = true 
     --end
     ScoreManager.ResetCombo(playField.scoreManager)
