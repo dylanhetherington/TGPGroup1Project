@@ -4,7 +4,7 @@ SongMenu = {songList,
             songDisplay,
             selectedPosition
           }
-
+local background = love.graphics.newImage('Assets/Song Select Screen.png')
 function SongMenu.Init()
   songDirectory = {}
   songMenu = setmetatable({}, SongMenu) 
@@ -31,12 +31,12 @@ function SongMenu.Init()
   end
   
   font = love.graphics.newFont(38)
-  love.graphics.setFont(font)
-  
+  love.graphics.setFont(font) 
   return songMenu
 end
 
 function SongMenu.Draw()
+  love.graphics.draw(background,0,0)
   love.graphics.draw(songSelect,1075,460)
   for i = 1,displaySize do
     love.graphics.draw(songArt[i],1100,150*i-115)

@@ -9,7 +9,9 @@ function StartMenu.Init()
 end
 
 function StartMenu.Update(dt)
-  
+  if (backgroundVideo:isPlaying() == false) then
+    backgroundVideo:rewind()
+  end
   if (love.keyboard.isDown('1')) then
     StartMenu.PlayerStart()
   end
@@ -22,5 +24,5 @@ end
 
 function StartMenu.PlayerStart()
   gameState = "SongMenu"
-  songMenu = SongMenu.Init()
+  SongMenu.Init()
 end

@@ -8,6 +8,12 @@ local background = love.graphics.newImage('Assets/voidBackground1080.png')
 local UI = love.graphics.newImage('Assets/PlayFieldUI1080.png')
 local hitBarrier = love.graphics.newImage('Assets/NoteHitBarrier1080.png')
 local hitConfirm =  love.graphics.newImage('Assets/HitConfirm1080.png')
+local missMessage = love.graphics.newImage('Assets/Miss.png')
+local closeMessage = love.graphics.newImage('Assets/Close.png')
+local hitMessage = love.graphics.newImage('Assets/Hit.png')
+local perfectMessage = love.graphics.newImage('Assets/Perfect.png')
+local hitMarkers = love.graphics.newImage('Assets/Hit Markers (2).png')
+
 local songStart = false
 local pause = false
 
@@ -15,6 +21,12 @@ local hitTimer1 = 2
 local hitTimer2 = 2
 local hitTimer3 = 2
 local hitTimer4 = 2
+local messageTimer = 2
+local frameCounter0 = 0
+local frameCounter1 = 0
+local frameCounter2 = 0
+local frameCounter3 = 0
+local frameTimer = 0
 
 PlayField = { timer,
               rails,
@@ -29,6 +41,11 @@ close = false
 perfect = false
 safe = false
 
+rail0Hit = false
+rail1Hit = false
+rail2Hit = false
+rail3Hit = false
+
 function PlayField.New(song)
   playField = setmetatable({}, PlayField)
   playField.timer = 0.0
@@ -41,7 +58,19 @@ function PlayField.New(song)
   playField.songAudio = PlayField.LoadSongAudio(playField.song.audioFile)
   songArt = love.graphics.newImage('Songs/'..playField.song.artFile)
   endTimer = 0
+  PlayField.SetUpAnimation()
   return playField
+end
+
+function PlayField.SetUpAnimation()
+hitMarkerAnimation = {}
+hitMarkerAnimation[0] = love.graphics.newQuad(0,0,292,334,hitMarkers:getDimensions())
+hitMarkerAnimation[1] = love.graphics.newQuad(0,0,292,668,hitMarkers:getDimensions())
+hitMarkerAnimation[2] = love.graphics.newQuad(0,0,292,1002,hitMarkers:getDimensions())
+hitMarkerAnimation[3] = love.graphics.newQuad(0,0,292,1336,hitMarkers:getDimensions())
+hitMarkerAnimation[4] = love.graphics.newQuad(0,0,292,1670,hitMarkers:getDimensions())
+hitMarkerAnimation[5] = love.graphics.newQuad(0,0,292,2004,hitMarkers:getDimensions())
+hitMarkerAnimation[6] = love.graphics.newQuad(0,0,292,2338,hitMarkers:getDimensions())
 end
 
 function PlayField.CreateRails(self)
@@ -66,51 +95,104 @@ function PlayField.LoadSongAudio(filepath)
 end
 
 function PlayField.Update(dt)
-  if (pause == false) then
-    if (songStart == false and playField.timer >= 1.3) then
-      playField.songAudio:play()
-      songStart = true
-    end
-    playField.timer = playField.timer + dt
-    hitTimer1 = hitTimer1 + dt
-    hitTimer2 = hitTimer2 + dt
-    hitTimer3 = hitTimer3 + dt
-    hitTimer4 = hitTimer4 + dt
-    Rail.Update(playField.rails[0], dt/2, playField.timer)
-    Rail.Update(playField.rails[1], dt/2, playField.timer)
-    Rail.Update(playField.rails[2], dt/2, playField.timer)
-    Rail.Update(playField.rails[3], dt/2, playField.timer)
-    if (ScoreManager.CheckSongEnd(playField.scoreManager) == true) then
-      endTimer = endTimer + dt
-      if (endTimer >= 5) then
-        gameState = "SongMenu"
-        songMenu = SongMenu.Init()
-        playField.songAudio:pause()
+
+    if (pause == false) then
+      if (songStart == false and playField.timer >= 1.3) then
+        playField.songAudio:play()
+        songStart = true
       end
-    end
-  end 
+      playField.timer = playField.timer + dt
+      hitTimer1 = hitTimer1 + dt
+      hitTimer2 = hitTimer2 + dt
+      hitTimer3 = hitTimer3 + dt
+      hitTimer4 = hitTimer4 + dt
+      messageTimer = messageTimer + dt
+      frameTimer = frameTimer + dt
+      Rail.Update(playField.rails[0], dt/2, playField.timer)
+      Rail.Update(playField.rails[1], dt/2, playField.timer)
+      Rail.Update(playField.rails[2], dt/2, playField.timer)
+      Rail.Update(playField.rails[3], dt/2, playField.timer)
+      if (ScoreManager.CheckSongEnd(playField.scoreManager) == true) then
+        endTimer = endTimer + dt
+        if (endTimer >= 5) then
+          gameState = "SongMenu"
+          songMenu = SongMenu.Init()
+          playField.songAudio:pause()
+        end
+      end
+
+
+    frameCounter1 = frameCounter1 + 1
+    frameCounter2 = frameCounter2 + 1
+    frameCounter3 = frameCounter3 + 1
+  --if (rail0Hit == true) then
+    --if (frameTimer > 1)then
+    --  frameTimer = 0
+     -- frameCounter0 = frameCounter0 + 1
+    --end
+    --if (frameCounter0 > 6) then
+     -- rail0Hit = false
+    --end
+   -- if (frameCounter1 > 6) then
+    -- rail1Hit = false
+    --end
+    --if (frameCounter2 > 6) then
+    --  rail2Hit = false
+    --end
+    --if (frameCounter3 > 6) then
+    --  rail3Hit = false
+    --end
+  --end
+end 
 end
 function PlayField.Draw()
+  --if (rail0Hit == true) then
+  --  love.graphics.draw(hitMarkers,hitMarkerAnimation[frameCounter0], 96, 700)
+  --end
+  --if (rail1Hit == true) then
+  --  love.graphics.draw(hitMarkers,hitMarkerAnimation[frameCounter1], 288, 700)
+  --end
+  --if (rail2Hit == true) then
+  --  love.graphics.draw(hitMarkers,hitMarkerAnimation[frameCounter2], 480, 700)
+  --end
+  --if (rail3Hit == true) then
+  -- love.graphics.draw(hitMarkers,hitMarkerAnimation[frameCounter3], 672, 700)
+  --end
   love.graphics.draw(background,0, 0)
   love.graphics.draw(UI,0, 0)
   love.graphics.draw(hitBarrier,0, 0)
+  if (hitTimer1 < 0.2) then 
+    love.graphics.draw(hitConfirm, 96, 700, 0, 0.75, 0.75)   
+  end 
+  if (hitTimer2 < 0.2) then 
+    love.graphics.draw(hitConfirm, 288, 700, 0, 0.75, 0.75)   
+  end 
+  if (hitTimer3 < 0.2) then 
+    love.graphics.draw(hitConfirm, 480, 700, 0, 0.75, 0.75)   
+  end 
+  if (hitTimer4 < 0.2) then 
+    love.graphics.draw(hitConfirm, 672, 700, 0, 0.75, 0.75)
+  end
   love.graphics.setColor(0, 255, 0, 255)
   love.graphics.print(playField.timer, 1000, 10)
-  love.graphics.print(playField.scoreManager.score, 1600, 10)
-  love.graphics.print(playField.scoreManager.combo, 1600, 50)
-  love.graphics.print(playField.scoreManager.notesMissed, 1600, 100)
-    if (perfect == true) then
-        love.graphics.print("PERFECT", 800, 300,0,4,4)
-        print("Perfect")
-  elseif (hit == true) then
-        love.graphics.print("HIT", 800, 300,0,4,4)
-        print("hit")
-  elseif (close == true) then
-        love.graphics.print("CLOSE", 800, 300,0,4,4)
-        print("close")
-  elseif (miss == true) then
-        love.graphics.print("MISS", 800, 300,0,4,4)
-        print("Miss")
+  love.graphics.print("FPS: "..tostring(love.timer.getFPS()),10,10)
+  love.graphics.print("Score: "..playField.scoreManager.score, 1600, 10)
+  love.graphics.print("Combo: "..playField.scoreManager.combo, 1600, 50)
+  love.graphics.print("Miss: "..playField.scoreManager.notesMissed, 1600, 100)
+  if (messageTimer <= 0.2) then
+      if (perfect == true) then
+          love.graphics.draw(perfectMessage, 1000, 300)
+          print("Perfect")
+    elseif (hit == true) then
+          love.graphics.draw(hitMessage, 1000, 300)
+          print("hit")
+    elseif (close == true) then
+          love.graphics.draw(closeMessage, 1000, 300)
+          print("close")
+    elseif (miss == true) then
+          love.graphics.draw(missMessage, 1000, 300)
+          print("Miss")
+    end
   end
   love.graphics.setColor(255,255,255,255)
   Rail.DrawNote(playField.rails[0], 144)
@@ -118,10 +200,6 @@ function PlayField.Draw()
   Rail.DrawNote(playField.rails[2], 528)
   Rail.DrawNote(playField.rails[3], 720)
 
-  perfect = false;
-  hit = false;
-  miss = false;
-  close = false;
    if (songStart == false) then
     love.graphics.print(playField.song.songName,200, 500, 0,2)
     love.graphics.draw(songArt,250,600)
@@ -130,20 +208,24 @@ end
 
 function love.keypressed(key, scancode, isrepeat)
   if (key == "d" and pause == false) then
+    hitTimer1 = 0
     accuracy = Rail.InteractWithNote(playField.rails[0], playField.timer, 144)
-    PlayField.Accuracy(accuracy, 1)
+    PlayField.Accuracy(accuracy, 0)
   end
   if (key == "f" and pause == false) then
+    hitTimer2 = 0
     accuracy = Rail.InteractWithNote(playField.rails[1], playField.timer, 336)
-    PlayField.Accuracy(accuracy, 2)
+    PlayField.Accuracy(accuracy, 1)
   end
   if (key == "k" and pause == false) then
+    hitTimer3 = 0
     accuracy = Rail.InteractWithNote(playField.rails[2], playField.timer, 528)
-    PlayField.Accuracy(accuracy, 3)
+    PlayField.Accuracy(accuracy, 2)
   end
   if (key == "l" and pause == false) then
+    hitTimer4 = 0
     accuracy = Rail.InteractWithNote(playField.rails[3], playField.timer, 720)
-    PlayField.Accuracy(accuracy, 4) 
+    PlayField.Accuracy(accuracy, 3) 
   end
   if (key == "backspace") then
     gameState = "SongMenu"
@@ -163,34 +245,53 @@ end
 
 function PlayField.Accuracy(value, railNumber)
   local spawnHit = false
+  if (messageTimer >= 0.2) then
+    messageTimer = 0
+    perfect = false;
+    hit = false;
+    miss = false;
+    close = false;
+  end
   if (value < -300 and value >= -800 or value > 10 and value < 100) then
-    miss = true 
+   --if (railNumber == 0) then
+     miss = true 
+    --end
     ScoreManager.ResetCombo(playField.scoreManager)
   elseif (value < -200 and value >= -300 )then
+    --if (railNumber == 0) then
     close = true
+    --end
     spawnHit = true
     ScoreManager.IncrementCombo(playField.scoreManager)
     ScoreManager.IncrementNotesHit(playField.scoreManager)
   elseif (value < -100 and value >= -200 ) then
+    --if (railNumber == 0) then
     hit = true
+    --end
     spawnHit = true
     ScoreManager.IncrementCombo(playField.scoreManager)
     ScoreManager.IncrementNotesHit(playField.scoreManager)
   elseif (value < 10 and value >= -100) then
+    --if (railNumber == 0) then
     perfect = true 
+    --end
     spawnHit = true
     ScoreManager.IncrementCombo(playField.scoreManager)
     ScoreManager.IncrementNotesHit(playField.scoreManager)
   end
   if (spawnHit == true) then
-    if (railNumber == 1) then
-      hitTimer1 = 0
+    if (railNumber == 0) then
+      rail0Hit = true
+      frameCounter0 = 0
+    elseif (railNumber == 1) then
+      rail1Hit = true
+      frameCounter1 = 0
     elseif (railNumber == 2) then
-      hitTimer2 = 0 
+      rail2Hit = true
+      frameCounter2 = 0
     elseif (railNumber == 3) then
-      hitTimer3 = 0      
-    else 
-      hitTimer4 = 0  
+      rail3Hit = true
+      frameCounter3 = 0
     end
   end
 end
