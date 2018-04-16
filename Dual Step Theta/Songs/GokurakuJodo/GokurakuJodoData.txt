@@ -1,3 +1,4 @@
+GokurakuJodo/GokurakuJodoData.txt
 Gokuraku Jodo
 GARDINELIA
 GokurakuJodo/Gokuraku Jodo.mp3

@@ -1,6 +1,7 @@
 require 'Note'
 
-Song = {songName,
+Song = {path,
+        songName,
         artist,
         difficulty,
         rating,
@@ -16,6 +17,7 @@ Song = {songName,
 
 function Song.New()
   song = setmetatable({}, Song)
+  song.path = ""
   song.songName = ""
   song.artist = ""
   song.difficulty = ""
@@ -33,32 +35,33 @@ function Song.New()
 end
 
 function Song.StoreData(self, checkDifficulty)
-  self.songName = songDataStore[1]
-  self.artist = songDataStore[2]
-  self.audioFile = songDataStore[3]
-  self.audioPreview = songDataStore[4]
-  self.artFile = songDataStore[5]
-  self.delay = songDataStore[6]
+  self.path = songDataStore[1]
+  self.songName = songDataStore[2]
+  self.artist = songDataStore[3]
+  self.audioFile = songDataStore[4]
+  self.audioPreview = songDataStore[5]
+  self.artFile = songDataStore[6]
+  self.delay = songDataStore[7]
   if (checkDifficulty == 0) then
-    self.difficulty = songDataStore[8]
-    self.rating = songDataStore[9]
-    self.noteChart = songDataStore[10]
-    self.bestScore = songDataStore[11]
-    self.previousScore = songDataStore[12]
+    self.difficulty = songDataStore[9]
+    self.rating = songDataStore[10]
+    self.noteChart = songDataStore[11]
+    self.bestScore = songDataStore[12]
+    self.previousScore = songDataStore[13]
   end
   if (checkDifficulty == 1) then
-    self.difficulty = songDataStore[14]
-    self.rating = songDataStore[15]
-    self.noteChart = songDataStore[16]
-    self.bestScore = songDataStore[17]
-    self.previousScore = songDataStore[18]
+    self.difficulty = songDataStore[15]
+    self.rating = songDataStore[16]
+    self.noteChart = songDataStore[17]
+    self.bestScore = songDataStore[18]
+    self.previousScore = songDataStore[19]
   end
   if (checkDifficulty == 2) then
-    self.difficulty = songDataStore[20]
-    self.rating = songDataStore[21]
-    self.noteChart = songDataStore[22]
-    self.bestScore = songDataStore[23]
-    self.previousScore = songDataStore[24]
+    self.difficulty = songDataStore[21]
+    self.rating = songDataStore[22]
+    self.noteChart = songDataStore[23]
+    self.bestScore = songDataStore[24]
+    self.previousScore = songDataStore[25]
   end
 end
 

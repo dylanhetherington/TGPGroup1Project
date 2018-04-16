@@ -121,6 +121,7 @@ if (ScoreManager.CheckSongEnd(playField.scoreManager) == true or playField.playe
   dead = true
   endTimer = endTimer + dt
   if (endTimer >= 5) then
+    
     gameState = "SongMenu"
     songMenu = SongMenu.Init(playField.player)
     playField.songAudio:pause()

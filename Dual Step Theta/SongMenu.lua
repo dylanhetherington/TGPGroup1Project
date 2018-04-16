@@ -40,9 +40,9 @@ end
 
 function SongMenu.Draw()
   love.graphics.draw(background,0,0)
-  love.graphics.draw(songSelect,1075,460)
+  love.graphics.draw(songSelect,1075,450)
   for i = 1,displaySize do
-    love.graphics.draw(songArt[i],1100,150*i-115)
+    love.graphics.draw(songArt[i],1100,147*i-115)
   end
   if TableCount(songMenu.songDisplay) > 0 then
     love.graphics.print('Name: '..songMenu.songDisplay[4].songName,150,250)
