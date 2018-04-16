@@ -1,0 +1,24 @@
+Gokuraku Jodo
+GARDINELIA
+GokurakuJodo/Gokuraku Jodo.mp3
+GokurakuJodo/Gokuraku Jodo Short.mp3
+GokurakuJodo/Jodo.jpg
+0
+[Difficulty 0]
+Easy
+1
+GokurakuJodo/GokurakuJodoEasy.txt
+000000
+000000
+[Difficulty 1]
+Medium
+2
+GokurakuJodo/GokurakuJodoMedium.txt
+000000
+000000
+[Difficulty 2]
+Hard
+3
+GokurakuJodo/GokurakuJodoHard.txt
+000000
+000000

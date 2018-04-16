@@ -1,9 +1,7 @@
 --require 'PlayField'
 ScoreManager = {totalNotes,
                 notesHit,
-                combo,
                 score,
-                health,
                 percentageNotesHit,
                 notesMissed,
                 playField,}
@@ -12,9 +10,7 @@ function ScoreManager.New(totalNotesSong, PlayField)
   scoreManager = setmetatable({}, ScoreManager)
   scoreManager.totalNotes = totalNotesSong
   scoreManager.notesHit = 0
-  scoreManager.combo = 0
   scoreManager.score = 0
-  scoreManager.health = 0
   scoreManager.percentageNotesHit = 0
   scoreManager.notesMissed = 0
   scoreManager.playField = PlayField
@@ -23,19 +19,10 @@ end
   
 function ScoreManager.IncrementNotesHit(self)
   self.notesHit = self.notesHit + 1
-  self.score = self.score + 1
 end
 
 function ScoreManager.GetNotesHit(self)
   return self.notesHit
-end
-
-function ScoreManager.IncrementCombo(self)
-  self.combo = self.combo + 1
-end
-
-function ScoreManager.ResetCombo(self)
-  self.combo = 0
 end
 
 function ScoreManager.GetScore(self)
@@ -50,14 +37,13 @@ function ScoreManager.IncrementNotesMissed(self)
   self.notesMissed = self.notesMissed + 1
 end
 
+function ScoreManager.AdjustScore(self, adjustment)
+  self.score = self.score + adjustment
+end
 function ScoreManager.CheckSongEnd(self)
   if (self.notesHit + self.notesMissed >= self.totalNotes) then
     return true
   else
     return false
   end
-end
-
-function ScoreManager.DecrementHealth(self)
-  self.health = self.health - 1
 end
