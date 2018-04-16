@@ -6,7 +6,7 @@ require 'Note'
 
 local screen = require "shack"
 screen:setDimensions(1920,1080)
-local graphics
+--local graphics
 local background = love.graphics.newImage('Assets/voidBackground1080.png')
 local UI = love.graphics.newImage('Assets/PlayFieldUI1080.png')
 local hitBarrier = love.graphics.newImage('Assets/NoteHitBarrier1080.png')
@@ -16,10 +16,16 @@ local closeMessage = love.graphics.newImage('Assets/Close.png')
 local hitMessage = love.graphics.newImage('Assets/Hit.png')
 local perfectMessage = love.graphics.newImage('Assets/Perfect.png')
 local hitMarkers = love.graphics.newImage('Assets/Hit Markers (2).png')
+local earthEnemy = love.graphics.newImage('Assets/EarthEnemy.png')
+local waterEnemy = love.graphics.newImage('Assets/WaterEnemy.png')
+local fireEnemy = love.graphics.newImage('Assets/FireEnemy.png')
+local neutralEnemy = love.graphics.newImage('Assets/NeutralEnemy.png')
+local earthBuff = love.graphics.newImage('Assets/EarthBuff.png') -- 0
+local waterBuff = love.graphics.newImage('Assets/WaterBuff.png') -- 1
+local fireBuff = love.graphics.newImage('Assets/FireBuff.png') -- 2
 
 local songStart = false
 local pause = false
-
 local hitTimer1 = 2
 local hitTimer2 = 2
 local hitTimer3 = 2
@@ -33,6 +39,10 @@ local frameTimer0 = 0
 local frameTimer1 = 0
 local frameTimer2 = 0
 local frameTimer3 = 0
+
+playerElement = 0 --Earth
+monsterElement = "Water"
+monsterHealth = 100
 
 PlayField = { timer,
               rails,

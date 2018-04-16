@@ -82,7 +82,6 @@ function Rail.InteractWithNote(self, timer, railX)
         self.noteInPlay = self.noteInPlay + 1
        
       end
-      --if (accuracy < 10 and acuracy >= -500) then
     end
   end
   return accuracy

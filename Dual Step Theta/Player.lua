@@ -38,7 +38,7 @@ end
 function Player.Draw(self)
   if (self.health > 0) then
     love.graphics.setColor(255,0,0,255)
-    love.graphics.rectangle("fill",10,930,40,-self.health * 7) --height changes based on player health
+    love.graphics.rectangle("fill",10,926,40,-self.health * 7) --height changes based on player health
     love.graphics.setColor(255,255,255,255)
   end
   love.graphics.draw(healthBar, 10, 200)
