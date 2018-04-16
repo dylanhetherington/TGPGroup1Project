@@ -74,9 +74,9 @@ function Rail.InteractWithNote(self, timer, railX)
     --print("note not nill")
     if (checkNote.active == true) then
       accuracy = (timer * 1000) - (checkNote.startTime + 1834) --917 time for note to drop to hit bar
-        print("time   "..timer * 1000)
-        print("noteTime   "..checkNote.startTime)
-        print("accuracy   "..accuracy)
+        --print("time   "..timer * 1000)
+        --print("noteTime   "..checkNote.startTime)
+        --print("accuracy   "..accuracy)
       if (accuracy >= -300 and accuracy < 10) then
         self.notes[self.noteInPlay].active = false
         self.noteInPlay = self.noteInPlay + 1

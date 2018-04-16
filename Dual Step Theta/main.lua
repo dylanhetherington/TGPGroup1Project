@@ -23,8 +23,10 @@ function love.draw()
   if (gameState == "Start") then
     StartMenu.Draw()
   elseif (gameState == "SongMenu") then
+    collectgarbage("collect")
     SongMenu.Draw()
   elseif(gameState == "Play") then
+    collectgarbage("stop")
     love.graphics.setBackgroundColor(0,0,0)
     PlayField.Draw()
   end
